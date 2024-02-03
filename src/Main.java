@@ -1,7 +1,6 @@
 public class Main {
     public static void main(String[] args) {
 
-        // 모든 캐릭터를 나타내는 기본 클래스
         class Character {
             String name; // 이름
             int level; // 레벨
