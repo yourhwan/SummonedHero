@@ -1,44 +1,64 @@
 package rpggame;
 
+import java.util.Scanner;
+
 public abstract class Hero {
 
     // 캐릭터 기본 정보 필드
     private int hp;
     private int mp;
     private int exp = 0;
+    private static final int maxExp = 100;
     private int level = 1;
     private int money = 0;
     private String job;
+    private String nickname;
     private String basicAttackName;
     private String passiveSkillName;
     private int basicSkillDamage;
 
-
     // 하위 클래스에서 구현할 추상 메서드 생성
-    abstract void useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
 
+    abstract void useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
     abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
+
 
 
     // 레벨업 메서드
     protected void levelUp() {
-        if (getExp() >= 100) {
+        int currentExp = getExp();
+
+        if (currentExp >= maxExp) {
+            int remainExp = currentExp - maxExp;
             setLevel(getLevel() + 1); // 레벨은 1씩 증가
-            setExp(0); // 경험치 0으로 초기화
+            setExp(remainExp); // 레벨업 후 남은 경험치를 현재 경험치로 설정
             setHp(getHp() + 10); // hp 10 증가
             setMp(getMp() + 10); // mp 10 증가
         }
+
+        System.out.println("레벨업을 축하합니다! 현재 레벨은 " + getLevel() +" 입니다. 더욱 강해진 힘을 느끼는 "+getNickname());
     }
 
-
+    // 캐릭터 정보 불러오는 메서드
+    @Override
+    public String toString(){
+        return "==========" + getNickname() + "의 정보 ==========\n" +
+                "CLASS: " + getJob() + "\n" +
+                "LEVEL: " + getLevel() + "\n" +
+                "EXP: " + getExp() + "\n" +
+                "HP: " + getHp() + "\n" +
+                "MP: " + getMp() + "\n" +
+                "MONEY: " + getMoney() + "\n" +
+                "=================================";
+    }
 
 
 
     // getter, setter 생성
+
     public int getHp() {
         return hp;
     }
-
     public void setHp(int hp) {
         this.hp = hp;
     }
@@ -81,6 +101,14 @@ public abstract class Hero {
 
     public void setJob(String job) {
         this.job = job;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getBasicAttackName() {
