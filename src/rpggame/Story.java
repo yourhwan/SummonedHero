@@ -5,6 +5,10 @@ import java.util.Scanner;
 public class Story {
     public static void main(String[] args) {
 
+        double radom = Math.random(); // 랜덤 데미지 부여
+
+        System.out.println(radom);
+/*
         Scanner scanner = new Scanner(System.in);
 
         // 캐릭터 이름 입력
@@ -12,8 +16,11 @@ public class Story {
                 "용사님의 성함은 어떻게 되십니까?");
         String nickName = scanner.next();
 
+        // 입력받은 닉네임 설정
+
+
         // 직업 선택
-        System.out.println("오!" +  + "용사에 걸맞는 아주 용맹한 이름 입니다.");
+        System.out.println("오! 용사에 걸맞는 아주 용맹한 이름 입니다.");
         System.out.println("직업을 선택하세요: 1. Warrior, 2. Dual Blade, 3. Berserker, 4. Sword Master");
         int jobChoice = scanner.nextInt();
 
@@ -36,13 +43,13 @@ public class Story {
                 player = new Warrior();
         }
 
-        // 입력받은 닉네임 설정
-        player.setNickname(nickname);
+
 
         // 캐릭터 정보 출력
         System.out.println(player.toString());
+
+ */
     }
 
 
-    }
 }

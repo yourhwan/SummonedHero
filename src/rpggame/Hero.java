@@ -1,31 +1,31 @@
 package rpggame;
 
-import java.util.Scanner;
-
 public abstract class Hero {
 
     // 캐릭터 기본 정보 필드
-    private int hp;
-    private int mp;
-    private int exp = 0;
-    private static final int maxExp = 100;
-    private int level = 1;
-    private int money = 0;
-    private String job;
-    private String nickname;
-    private String basicAttackName;
-    private String passiveSkillName;
-    private int basicSkillDamage;
+    private int hp; // 체력
+    private int mp; // 마나
+    private int exp = 0; // 현재 경험치
+    private static final int maxExp = 100; // 최대 경험치
+    private int level = 1; // 레벨
+    private int money = 0; // 돈
+    private String job; // 직업
+    private String nickname; // 이름
+    private String basicAttackName; // 기본 공격 이름
+    private String passiveSkillName; // 기본 패시브스킬 이름
+    private int basicAttackDamage; // 기본 공격 데미지
+
+
 
     // 하위 클래스에서 구현할 추상 메서드 생성
-
-    abstract void useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
+    abstract int useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
     abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
 
 
 
     // 레벨업 메서드
     protected void levelUp() {
+
         int currentExp = getExp();
 
         if (currentExp >= maxExp) {
@@ -42,6 +42,7 @@ public abstract class Hero {
     // 캐릭터 정보 불러오는 메서드
     @Override
     public String toString(){
+
         return "==========" + getNickname() + "의 정보 ==========\n" +
                 "CLASS: " + getJob() + "\n" +
                 "LEVEL: " + getLevel() + "\n" +
@@ -55,7 +56,6 @@ public abstract class Hero {
 
 
     // getter, setter 생성
-
     public int getHp() {
         return hp;
     }
@@ -127,11 +127,11 @@ public abstract class Hero {
         this.passiveSkillName = passiveSkillName;
     }
 
-    public int getBasicSkillDamage() {
-        return basicSkillDamage;
+    public int getBasicAttackDamage() {
+        return basicAttackDamage;
     }
 
-    public void setBasicSkillDamage(int basicSkillDamage) {
-        this.basicSkillDamage = basicSkillDamage;
+    public void setBasicAttackDamage(int basicAttackDamage) {
+        this.basicAttackDamage = basicAttackDamage;
     }
 }
