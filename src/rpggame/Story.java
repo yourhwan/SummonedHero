@@ -5,9 +5,12 @@ import java.util.Scanner;
 public class Story {
     public static void main(String[] args) {
 
+        Worrier worrier = new Worrier();
+
         double radom = Math.random(); // 랜덤 데미지 부여
 
         System.out.println(radom);
+
 /*
         Scanner scanner = new Scanner(System.in);
 

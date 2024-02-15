@@ -9,7 +9,8 @@ public class DualBlade extends Hero{
         setExp(getExp());         // 경험치
         setLevel(getLevel());     // 레벨
         setMoney(getMoney());     // 돈
-        setJob("듀얼블레이드");       // 직업
+        setJob("듀얼블레이드");       // 직업쉬
+        setBasicAttackName("세비지블로우"); // 기본 공격 이름
         setBasicAttackDamage(30); // 기본 공격 데미지
     }
 
