@@ -1,15 +1,12 @@
 package rpggame;
 
-import java.util.Scanner;
+import userjob.Worrier;
 
 public class Story {
     public static void main(String[] args) {
 
-        Worrier worrier = new Worrier();
-
-        double radom = Math.random(); // 랜덤 데미지 부여
-
-        System.out.println(radom);
+    Worrier worrier = new Worrier();
+        System.out.println(worrier.toString());
 
 /*
         Scanner scanner = new Scanner(System.in);

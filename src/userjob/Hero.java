@@ -1,4 +1,5 @@
-package rpggame;
+package userjob;
+
 
 public abstract class Hero {
 
@@ -51,7 +52,7 @@ public abstract class Hero {
                 "HP: " + getHp() + "\n" +
                 "MP: " + getMp() + "\n" +
                 "MONEY: " + getMoney() + "\n" +
-                "=================================";
+                "==============================";
     }
 
 
