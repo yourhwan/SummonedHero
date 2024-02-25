@@ -38,4 +38,10 @@ public class DualBlade extends Hero implements DualBladeAttackSkill {
     void usePassiveSkill() {
 
     }
+
+    // 듀얼블레이드 인터페이스 공격 스킬
+
+    // 소드마스터 인터페이스 버프 스킬
+
+
 }

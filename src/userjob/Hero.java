@@ -1,6 +1,8 @@
 package userjob;
 
 
+import java.util.Scanner;
+
 public abstract class Hero {
 
     // 캐릭터 기본 정보 필드
@@ -24,6 +26,13 @@ public abstract class Hero {
     abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
 
 
+    // 닉네임 설정 메서드
+    protected void setNicknameFromUser() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("영웅의 이름을 입력해주세요 : " );
+        this.nickname = sc.nextLine();
+        System.out.println("영웅의 이름이 " + this.nickname + "로 설정 되었습니다.");
+    }
 
     // 레벨업 메서드
     protected void levelUp() {
@@ -136,4 +145,5 @@ public abstract class Hero {
     public void setBasicAttackDamage(int basicAttackDamage) {
         this.basicAttackDamage = basicAttackDamage;
     }
+
 }

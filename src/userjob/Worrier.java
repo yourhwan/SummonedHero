@@ -42,18 +42,19 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
         System.out.println("'아머 마스터리' 발동! -> HP가 2배 증가 합니다. \n현재 HP : " + getHp());
     }
 
-    // 인터페이스 공격스킬 구현
+    // 워리어 인터페이스 공격 스킬
     @Override
     public int powerStrike() {
-        return 0;
+        int baseDamage =
+
     }
 
-    // 인터페이스 버프스킬 구현
+    // 워리어 인터페이스 버프 스킬
     @Override
     public void guardMaster() {
 
     }
 
-    // 인터페이스 버프스킬 구현
+
 
 }

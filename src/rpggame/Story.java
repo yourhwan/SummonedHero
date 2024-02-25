@@ -6,7 +6,7 @@ public class Story {
     public static void main(String[] args) {
 
     Worrier worrier = new Worrier();
-        System.out.println(worrier.toString());
+        System.out.println();
 
 /*
         Scanner scanner = new Scanner(System.in);
