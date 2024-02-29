@@ -43,6 +43,11 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, Worrier
     }
 
     // 소드마스터 인터페이스 공격 스킬
+    @Override
+    public int fastSlash() {
+
+        return 0;
+    }
 
     // 소드마스터 인터페이스 버프 스킬
 
