@@ -30,12 +30,12 @@ public abstract class Hero {
     protected void setNicknameFromUser() {
         Scanner sc = new Scanner(System.in);
         System.out.println("영웅의 이름을 입력해주세요 : " );
-        this.nickname = sc.nextLine();
-        System.out.println("영웅의 이름이 " + this.nickname + "로 설정 되었습니다.");
+        setNickname(sc.nextLine());
+        System.out.println("영웅의 이름이 " + getNickname() + "로 설정 되었습니다.");
     }
 
     // 레벨업 메서드
-    protected void levelUp() {
+    protected void checkLevelUp() {
 
         int currentExp = getExp();
 
@@ -45,6 +45,7 @@ public abstract class Hero {
             setExp(remainExp); // 레벨업 후 남은 경험치를 현재 경험치로 설정
             setHp(getHp() + 10); // hp 10 증가
             setMp(getMp() + 10); // mp 10 증가
+            setBasicAttackDamage(getBasicAttackDamage() + 5);
         }
 
         System.out.println("레벨업을 축하합니다! 현재 레벨은 " + getLevel() +" 입니다. 더욱 강해진 힘을 느끼는 "+getNickname());
@@ -57,6 +58,7 @@ public abstract class Hero {
         return "==========" + getNickname() + "의 정보 ==========\n" +
                 "CLASS: " + getJob() + "\n" +
                 "LEVEL: " + getLevel() + "\n" +
+                "Damage: " + getBasicAttackDamage() + "\n"+
                 "EXP: " + getExp() + "\n" +
                 "HP: " + getHp() + "\n" +
                 "MP: " + getMp() + "\n" +

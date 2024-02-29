@@ -46,4 +46,19 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, Worrier
 
     // 소드마스터 인터페이스 버프 스킬
 
+    // 다른 직업의 공격 스킬
+    @Override
+    public int powerStrike() {
+
+        int baseDamage = getBasicAttackDamage() * 2;
+        boolean isRandom = Math.random() <= 0.3;
+        int randomDamage = isRandom ? (int) (Math.random() * 3) + 5 : 0;
+        boolean isCritical = Math.random() <= 0.3;
+        int criticalDamage = isCritical ? 30 : 15;
+
+        int totalDamage = baseDamage + randomDamage + criticalDamage;; // 소드마스터에게 부여한 기본 데미지
+
+        return totalDamage;
+    }
+
 }

@@ -15,6 +15,7 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
         setJob("워리어");                // 직업
         setBasicAttackName("베기");      // 기본 공격 이름
         setBasicAttackDamage(25);      // 기본 공격 데미지
+        setNicknameFromUser();         // 유저로 부터 닉네임을 설정
     }
 
     // 워리어 기본 공격
@@ -22,12 +23,10 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
     int useBasicAttack() {
 
         int baseDamage = getBasicAttackDamage(); // 워리어에게 부여한 기본 데미지
-
         boolean isRandom = Math.random() <= 0.5; // 랜덤 데미지 추가 확률 설정
-        int randomDamage = isRandom ? (int) (Math.random() * 3.0) + 1 : 0; // 랜덤 데미지 부여
-
-        boolean isCritical = Math.random() <= 0.5; // 크리티컬 추가 데미지 확률 설정
-        int criticalDamage = isCritical ? 30 : 0; // 크리티컬일 경우 30의 데미지, 아닐 경우 0
+        int randomDamage = isRandom ? (int) (Math.random() * 3) + 1 : 0; // 랜덤 데미지 부여
+        boolean isCritical = Math.random() <= 0.3; // 크리티컬 추가 데미지 확률 설정
+        int criticalDamage = isCritical ? 30 : 5; // 크리티컬일 경우 30의 데미지, 아닐 경우 0
 
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
@@ -38,21 +37,31 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
     @Override
     public void usePassiveSkill() {
 
-        setHp(getHp() * 2); // 체력이 2배 증가
-        System.out.println("'아머 마스터리' 발동! -> HP가 2배 증가 합니다. \n현재 HP : " + getHp());
+        setHp((int) (getHp() * 1.5)); // 체력이 2배 증가
+        System.out.println("'아머 마스터리' 발동! -> HP가 1.5배 증가 합니다. \n현재 HP : " + getHp());
     }
 
     // 워리어 인터페이스 공격 스킬
     @Override
     public int powerStrike() {
-        int baseDamage =
 
+        int baseDamage = getBasicAttackDamage() * 3;
+        boolean isRandom = Math.random() <= 0.5;
+        int randomDamage = isRandom ? (int) (Math.random() * 5) + 5 : 0;
+        boolean isCritical = Math.random() <= 0.3;
+        int criticalDamage = isCritical ? 50 : 20;
+
+        int totalDamage = baseDamage + randomDamage + criticalDamage;; // 워리어에게 부여한 기본 데미지
+
+        return totalDamage;
     }
 
     // 워리어 인터페이스 버프 스킬
     @Override
     public void guardMaster() {
 
+        setHp(getHp()*2);
+        System.out.println("'가드마스터' 발동! -> HP가 2배 증가 합니다. \n현재 HP : " + getHp());
     }
 
 
