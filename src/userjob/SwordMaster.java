@@ -1,10 +1,8 @@
 package userjob;
 
-import skills.BersekerAttackSkill;
-import skills.SwordMasterAttackSkill;
-import skills.WorrierAttackSkill;
+import skills.*;
 
-public class SwordMaster extends Hero implements SwordMasterAttackSkill, WorrierAttackSkill, BersekerAttackSkill {
+public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMasterBuffSkill,WorrierAttackSkill, BersekerAttackSkill, DualBladeAttackSkill {
 
     public SwordMaster() {
 
@@ -19,7 +17,7 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, Worrier
 
     }
 
-    // 듀얼블레이드 기본 공격
+    // 소드마스터 기본 공격
     @Override
     int useBasicAttack() {
 
@@ -38,7 +36,7 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, Worrier
 
     // 소드마스터 기본 패시브 스킬
     @Override
-    void usePassiveSkill() {
+    public void usePassiveSkill() {
 
     }
 
@@ -46,12 +44,41 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, Worrier
     @Override
     public int fastSlash() {
 
-        return 0;
+        int skillCost = 20;
+
+        if ( getMp() >= skillCost) {
+
+            int totalDamage = getBasicAttackDamage() * 4;
+
+            // MP 감소
+            setMp(getMp() - skillCost);
+
+            return totalDamage;
+        }
+        else {
+            System.out.println("MP가 부족하여 기본 공격을 사용합니다.");
+            return useBasicAttack();
+        }
+
     }
 
     // 소드마스터 인터페이스 버프 스킬
+    @Override
+    public void swordMastery() {
 
+        int skillCost = 10;
+
+        if (getMp() >= skillCost) {
+
+            setBasicAttackDamage(getBasicAttackDamage() + 15); // 기본 공격력 15 증가
+            System.out.println("공격력이 15 증가 했습니다.");
+        }
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
     // 다른 직업의 공격 스킬
+
+    // 워리어 스킬
     @Override
     public int powerStrike() {
 
@@ -65,5 +92,9 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, Worrier
 
         return totalDamage;
     }
+
+    // 버서커 스킬
+
+    // 듀얼블레이드 스킬
 
 }

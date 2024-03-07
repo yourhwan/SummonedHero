@@ -37,7 +37,7 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
     @Override
     public void usePassiveSkill() {
 
-        setHp((int) (getHp() * 1.5)); // 체력이 2배 증가
+        setHp((int) (getHp() * 1.5)); // 체력이 1.5배 증가
         System.out.println("'아머 마스터리' 발동! -> HP가 1.5배 증가 합니다. \n현재 HP : " + getHp());
     }
 
@@ -52,6 +52,8 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
         int criticalDamage = isCritical ? 50 : 20;
 
         int totalDamage = baseDamage + randomDamage + criticalDamage;; // 워리어에게 부여한 기본 데미지
+
+        System.out.println("파워 스트라이크! " + totalDamage +"만큼의 피해를 가했습니다.");
 
         return totalDamage;
     }
