@@ -6,6 +6,8 @@ public class DualBlade extends Hero implements DualBladeAttackSkill {
 
     public DualBlade() {
 
+        setMaxHp(150);            // 최대 체력
+        setMaxMp(150);            // 최대 마력
         setHp(150);               // 체력
         setMp(150);               // 마력
         setExp(getExp());         // 경험치

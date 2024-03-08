@@ -6,8 +6,10 @@ import java.util.Scanner;
 public abstract class Hero {
 
     // 캐릭터 기본 정보 필드
-    private int hp; // 체력
-    private int mp; // 마나
+    private int hp; // 현재 체력
+    private int maxHp; // 최대 체력
+    private int mp; // 현재 마나
+    private int maxMp; // 최대 마나
     private int exp = 0; // 현재 경험치
     private static final int maxExp = 100; // 최대 경험치
     private int level = 1; // 레벨
@@ -43,8 +45,8 @@ public abstract class Hero {
             int remainExp = currentExp - maxExp;
             setLevel(getLevel() + 1); // 레벨은 1씩 증가
             setExp(remainExp); // 레벨업 후 남은 경험치를 현재 경험치로 설정
-            setHp(getHp() + 10); // hp 10 증가
-            setMp(getMp() + 10); // mp 10 증가
+            setMaxHp(getMaxHp() + 10); // 최대 hp 10 증가
+            setMaxMp(getMaxMp() + 10); // 최대 mp 10 증가
             setBasicAttackDamage(getBasicAttackDamage() + 5);
         }
 
@@ -60,8 +62,8 @@ public abstract class Hero {
                 "LEVEL: " + getLevel() + "\n" +
                 "Damage: " + getBasicAttackDamage() + "\n"+
                 "EXP: " + getExp() + "\n" +
-                "HP: " + getHp() + "\n" +
-                "MP: " + getMp() + "\n" +
+                "HP: " + getMaxHp() + "\n" +
+                "MP: " + getMaxMp() + "\n" +
                 "MONEY: " + getMoney() + "\n" +
                 "==============================";
     }
@@ -72,6 +74,23 @@ public abstract class Hero {
     public int getHp() {
         return hp;
     }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public int getMaxMp() {
+        return maxMp;
+    }
+
+    public void setMaxMp(int maxMp) {
+        this.maxMp = maxMp;
+    }
+
     public void setHp(int hp) {
         this.hp = hp;
     }
