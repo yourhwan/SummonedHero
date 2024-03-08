@@ -44,11 +44,12 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
 
         int damage = (int) (getBasicAttackDamage() * 1.5);
 
-        setMaxHp((int) (getMaxHp()*1.5)); // 최대 체력이 1.5배 증가
-        setHp((int) (getHp()*1.5)); // 현재 체력이 1.5배 증가
+        int maxHp = (int) (getMaxHp()*1.5); // 최대 체력이 1.5배 증가
+        int hp = (int) (getHp()*1.5); // 현재 체력이 1.5배 증가
         System.out.println("'광폭화' 발동! -> HP와 공격력이 1.5배 증가 합니다. " +
-                "\n현재 HP : " + getMaxHp() +
-                "\n현재 공격력 : " + getBasicAttackDamage());
+                "\n최대 HP : " + maxHp +
+                "\n현재 HP : " + hp +
+                "\n현재 공격력 : " + damage);
     }
 
     // 버서커 인터페이스 공격 스킬
