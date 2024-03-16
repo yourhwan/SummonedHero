@@ -8,8 +8,12 @@ public abstract class Hero {
     // 캐릭터 기본 정보 필드
     private int hp; // 현재 체력
     private int maxHp; // 최대 체력
+    private int initialHp; // 버프스킬 사용 전 현재 hp값 저장용
+    private int initialMaxHp; // 버프스킬 사용 전 최대 hp값 저장용
     private int mp; // 현재 마나
     private int maxMp; // 최대 마나
+    private int initialMp; // 버프 스킬 사용 전 mp값 저장용
+    private int initialMaxMp; // 버프 스킬 사용 전 최대 mp값 저장용
     private int exp = 0; // 현재 경험치
     private static final int maxExp = 100; // 최대 경험치
     private int level = 1; // 레벨
@@ -19,14 +23,27 @@ public abstract class Hero {
     private String basicAttackName; // 기본 공격 이름
     private String passiveSkillName; // 기본 패시브스킬 이름
     private int basicAttackDamage; // 기본 공격 데미지
-
+    private int initialDamage; // 버프 스킬 사용 전 데미지 저장용
 
 
     // 하위 클래스에서 구현할 추상 메서드 생성
     abstract int useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
-
     abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
 
+    // 공격 받았을 경우 피해를 처리하는 메서드
+    public void takeDamage(int damage) {
+        hp -= damage; // 사용자의 체력을 몬스터로 부터의 피해량 만큼 감소 시킨다
+
+        if (hp < 0) {
+            hp = 0; // 체력이 0 미만이 되지 않도록
+        }
+    }
+
+    // 생존여부 확인 메서드
+    public boolean isAlive() {
+
+        return hp > 0;
+    }
 
     // 닉네임 설정 메서드
     protected void setNicknameFromUser() {
@@ -41,16 +58,25 @@ public abstract class Hero {
 
         int currentExp = getExp();
 
-        if (currentExp >= maxExp) {
+        while (currentExp >= maxExp) {
+
             int remainExp = currentExp - maxExp;
             setLevel(getLevel() + 1); // 레벨은 1씩 증가
             setExp(remainExp); // 레벨업 후 남은 경험치를 현재 경험치로 설정
-            setMaxHp(getMaxHp() + 10); // 최대 hp 10 증가
-            setMaxMp(getMaxMp() + 10); // 최대 mp 10 증가
-            setBasicAttackDamage(getBasicAttackDamage() + 5);
+            setMaxHp(getMaxHp() + 20); // 최대 hp 20 증가
+            setMaxMp(getMaxMp() + 20); // 최대 mp 20 증가
+            setBasicAttackDamage(getBasicAttackDamage() + 20); // 기본 공격력 20 증가
+            setInitialDamage(getBasicAttackDamage());
+            setHp(getMaxHp()); // 체력 완전 회복
+            setMp(getMaxMp()); // 마나 완전 회복
+            setInitialHp(getHp());
+            setInitialMp(getMp());
+            setInitialMaxHp(getMaxHp()); // 버프 전 최대 체력 업데이트
+            setInitialMaxMp(getMaxMp()); // 버프 전 최대 마나 업데이트
+            currentExp = remainExp; // 레벨업 후 남은 현재 경험치
         }
-
         System.out.println("레벨업을 축하합니다! 현재 레벨은 " + getLevel() +" 입니다. 더욱 강해진 힘을 느끼는 "+getNickname());
+
     }
 
     // 캐릭터 정보 불러오는 메서드
@@ -68,9 +94,49 @@ public abstract class Hero {
                 "==============================";
     }
 
+    // 버프 해제 메서드
+    public void revert() {
+        hp = initialHp;
+        maxHp = initialMaxHp;
+        mp = initialMaxMp;
+        maxMp = initialMaxMp;
+        basicAttackDamage = initialDamage;
+    }
 
 
     // getter, setter 생성
+
+    public int getInitialMaxHp() {
+        return initialMaxHp;
+    }
+
+    public void setInitialMaxHp(int initialMaxHp) {
+        this.initialMaxHp = initialMaxHp;
+    }
+
+    public int getInitialHp() {
+        return initialHp;
+    }
+
+    public void setInitialHp(int initialHp) {
+        this.initialHp = initialHp;
+    }
+
+    public int getInitialMaxMp() {
+        return initialMaxMp;
+    }
+
+    public void setInitialMaxMp(int initialMaxMp) {
+        this.initialMaxMp = initialMaxMp;
+    }
+
+    public int getInitialMp() {
+        return initialMp;
+    }
+
+    public void setInitialMp(int initialMp) {
+        this.initialMp = initialMp;
+    }
     public int getHp() {
         return hp;
     }
@@ -165,6 +231,14 @@ public abstract class Hero {
 
     public void setBasicAttackDamage(int basicAttackDamage) {
         this.basicAttackDamage = basicAttackDamage;
+    }
+
+    public int getInitialDamage() {
+        return initialDamage;
+    }
+
+    public void setInitialDamage(int initialDamage) {
+        this.initialDamage = initialDamage;
     }
 
 }
