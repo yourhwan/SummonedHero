@@ -16,6 +16,21 @@ public abstract class Monster {
     abstract int dropMoney(); // 떨굴 돈 추상 메서드
     abstract int dropExp(); // 떨굴 경험치 추상 메서드
 
+    // 공격 받았을 경우 피해를 처리하는 메서드
+    public void takeDamage(int damage) {
+        hp -= damage; // 몬스터의 체력을 사용자로 부터의 피해량 만큼 감소 시킨다
+
+        if (hp < 0) {
+            hp = 0; // 체력이 0 미만이 되지 않도록
+        }
+    }
+
+    // 생존여부 확인 메서드
+    public boolean isAlive() {
+
+        return hp > 0;
+    }
+
 
 
     // getter, setter 생성
