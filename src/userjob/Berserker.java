@@ -17,11 +17,11 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         setJob("버서커");                 // 직업
         setBasicAttackName("크게 베기");  // 기본 공격 이름
         setBasicAttackDamage(40);       // 기본 공격력
-        setInitialMaxHp(getMaxHp());    // 버프 스킬 사용 전 최대 체력
-        setInitialHp(getHp());          // 버프 스킬 사용 전 체력
-        setInitialMaxMp(getMaxMp());    // 버프 스킬 사용 전 최대 마력
-        setInitialMp(getInitialMp());   // 버프 스킬 사용 전 마력
-        setInitialDamage(getBasicAttackDamage()); // 버프 스킬 사용 전 기본 공격력
+        setInitialMaxHp(200);    // 버프 스킬 사용 전 최대 체력
+        setInitialHp(200);          // 버프 스킬 사용 전 체력
+        setInitialMaxMp(100);    // 버프 스킬 사용 전 최대 마력
+        setInitialMp(100);   // 버프 스킬 사용 전 마력
+        setInitialDamage(40); // 버프 스킬 사용 전 기본 공격력
     }
 
     // 버서커 기본 공격
@@ -38,7 +38,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
 
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
-        System.out.println(getBasicAttackName() + "!" + totalDamage + " 만큼의 피해를 가했습니다.");
+        System.out.println(getBasicAttackName() + "! " + totalDamage + " 만큼의 피해를 가했습니다.");
 
         return totalDamage;
     }
@@ -62,7 +62,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
     public int bloodStrike() { // hp와 mp를 각각 15, 20씩 소모하여 공격
 
         int hpCost = 15;
-        int mpCost = 20;
+        int mpCost = 10;
         int baseDamage = getBasicAttackDamage(); // 버서커에게 부여한 기본 데미지
         boolean isRandom = Math.random() <= 0.5; // 랜덤 데미지 추가 확률 설정
         int randomDamage = isRandom ? (int) (Math.random() * 2) + 1 : 0; // 랜덤 데미지 부여
@@ -74,9 +74,9 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
             setHp(getHp() - hpCost); // hp 감소
             setMp(getMp() - mpCost); // mp 감소
 
-            System.out.println("HP가 15, MP가 20 만큼 감소했습니다." +
+            System.out.println("블러드 스트라이크의 사용으로 HP가 15, MP가 10 만큼 감소했습니다." +
                     "\n현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
-                    "\n피의 일격! " + totalDamage + " 만큼의 피해를 가했습니다.");
+                    "\n블러드 스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.");
 
             return totalDamage;
         }
@@ -92,18 +92,27 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
 
     // 버서커 인터페이스 버프 스킬
     @Override
-    public void bloodLust() { // hp와 mp를 50씩 회복
+    public void bloodLust() { // mp를 50 소모하고 hp를 100을 회복
 
-        if (getMaxHp() > getHp() && getMaxMp() > getMp()) {
-            setHp(getHp()+50);
-            setMp(getMp()+50);
+        int mpCost = 50;
+        int restoreHp = 100;
+
+        if (getMp() >= mpCost) {
+            if (getHp() + restoreHp > getMaxHp()) {
+                setHp(getMaxHp());
+            }
+            else {
+                setHp(getHp() + restoreHp);
+            }
+            setMp(getMp() - mpCost);
+
+            System.out.println("피의 욕망을 사용했습니다. MP를 50만큼 소모하고 HP를 100만큼 회복합니다." +
+                    "\n피의 욕망! 현재 HP: " + getHp() + " 현재 MP: " + getMp());
         }
         else {
-
+            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp());
         }
 
     }
-
-
 
 }

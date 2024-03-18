@@ -7,8 +7,8 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
     // 워리어 생성자
     public Worrier() {
 
-        setMaxHp(100);                  // 최대 체력
-        setMaxMp(100);                  // 최대 마력
+        setMaxHp(150);                  // 최대 체력
+        setMaxMp(150);                  // 최대 마력
         setHp(100);                     // 체력
         setMp(100);                     // 마력
         setExp(getExp());               // 경험치
