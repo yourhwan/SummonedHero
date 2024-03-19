@@ -9,14 +9,19 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
 
         setMaxHp(150);                  // 최대 체력
         setMaxMp(150);                  // 최대 마력
-        setHp(100);                     // 체력
-        setMp(100);                     // 마력
+        setHp(150);                     // 체력
+        setMp(150);                     // 마력
         setExp(getExp());               // 경험치
         setLevel(getLevel());           // 레벨
         setMoney(getMoney());           // 돈
-        setJob("워리어");                // 직업
+        setJob("워리어");                 // 직업
         setBasicAttackName("베기");      // 기본 공격 이름
-        setBasicAttackDamage(25);      // 기본 공격 데미지
+        setBasicAttackDamage(60);       // 기본 공격력
+        setInitialMaxHp(150);           // 버프 스킬 사용 전 최대 체력
+        setInitialHp(150);              // 버프 스킬 사용 전 체력
+        setInitialMaxMp(150);           // 버프 스킬 사용 전 최대 마력
+        setInitialMp(150);              // 버프 스킬 사용 전 마력
+        setInitialDamage(60);           // 버프 스킬 사용 전 기본 공격력
     }
 
     // 워리어 기본 공격

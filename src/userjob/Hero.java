@@ -15,7 +15,7 @@ public abstract class Hero {
     private int initialMp; // 버프 스킬 사용 전 mp값 저장용
     private int initialMaxMp; // 버프 스킬 사용 전 최대 mp값 저장용
     private int exp = 0; // 현재 경험치
-    private static final int maxExp = 100; // 최대 경험치
+    private int maxExp = 100; // 최대 경험치
     private int level = 1; // 레벨
     private int money = 0; // 돈
     private String job; // 직업
@@ -53,28 +53,41 @@ public abstract class Hero {
         System.out.println("영웅의 이름이 " + getNickname() + "로 설정 되었습니다.");
     }
 
+    // 경험치 획득 메서드
+    protected void gainExp(int exp) {
+
+        System.out.println("+" + exp + " 만큼의 경험치를 획득했습니다.");
+
+        int currentExp = getExp();
+        int maxExp = getMaxExp();
+
+        currentExp += exp;
+
+        while(currentExp >= maxExp) {
+            checkLevelUp();
+            currentExp -= maxExp;
+            maxExp = getMaxExp();
+        }
+
+        setExp(currentExp);
+    }
+
     // 레벨업 메서드
     protected void checkLevelUp() {
 
-        int currentExp = getExp();
+        setLevel(getLevel() + 1); // 레벨은 1씩 증가
+        setMaxExp(getMaxExp() + 25); // 최대 경험치 25 증가
+        setMaxHp(getMaxHp() + 20); // 최대 hp 20 증가
+        setMaxMp(getMaxMp() + 20); // 최대 mp 20 증가
+        setBasicAttackDamage(getBasicAttackDamage() + 20); // 기본 공격력 20 증가
+        setInitialDamage(getBasicAttackDamage());
+        setHp(getMaxHp()); // 체력 완전 회복
+        setMp(getMaxMp()); // 마나 완전 회복
+        setInitialHp(getHp());
+        setInitialMp(getMp());
+        setInitialMaxHp(getMaxHp()); // 버프 전 최대 체력 업데이트
+        setInitialMaxMp(getMaxMp()); // 버프 전 최대 마나 업데이트
 
-        while (currentExp >= maxExp) {
-
-            int remainExp = currentExp - maxExp;
-            setLevel(getLevel() + 1); // 레벨은 1씩 증가
-            setExp(remainExp); // 레벨업 후 남은 경험치를 현재 경험치로 설정
-            setMaxHp(getMaxHp() + 20); // 최대 hp 20 증가
-            setMaxMp(getMaxMp() + 20); // 최대 mp 20 증가
-            setBasicAttackDamage(getBasicAttackDamage() + 20); // 기본 공격력 20 증가
-            setInitialDamage(getBasicAttackDamage());
-            setHp(getMaxHp()); // 체력 완전 회복
-            setMp(getMaxMp()); // 마나 완전 회복
-            setInitialHp(getHp());
-            setInitialMp(getMp());
-            setInitialMaxHp(getMaxHp()); // 버프 전 최대 체력 업데이트
-            setInitialMaxMp(getMaxMp()); // 버프 전 최대 마나 업데이트
-            currentExp = remainExp; // 레벨업 후 남은 현재 경험치
-        }
         System.out.println("레벨업을 축하합니다! 현재 레벨은 " + getLevel() +" 입니다. 더욱 강해진 힘을 느끼는 "+getNickname());
 
     }
@@ -137,6 +150,7 @@ public abstract class Hero {
     public void setInitialMp(int initialMp) {
         this.initialMp = initialMp;
     }
+
     public int getHp() {
         return hp;
     }
@@ -177,13 +191,15 @@ public abstract class Hero {
         this.exp = exp;
     }
 
+    public int getMaxExp() { return maxExp; }
+
+    public void setMaxExp(int maxExp) { this.maxExp = maxExp; }
+
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+    public void setLevel(int level) { this.level = level; }
 
     public int getMoney() {
         return money;
