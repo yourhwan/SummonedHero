@@ -103,7 +103,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
             }
             setMp(getMp() - mpCost);
 
-            System.out.println("피의 욕망을 사용했습니다. MP를 50만큼 소모하고 HP를 100만큼 회복합니다." +
+            System.out.println("'피의 욕망' 발동! -> MP를 50만큼 소모하고, HP를 100만큼 회복합니다." +
                     "\n피의 욕망! 현재 HP: " + getHp() + " 현재 MP: " + getMp());
         }
         else {

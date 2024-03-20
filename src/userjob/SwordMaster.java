@@ -104,15 +104,15 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
         return totalDamage;
     }
 
-    // 버서커 스킬
+    // 버서커 공격 스킬
     @Override
     public int bloodStrike() {
         return 0;
     }
 
-    // 듀얼블레이드 스킬
+    // 듀얼블레이드 공격 스킬
     @Override
-    public int doubleStrike() {
+    public int savageBlow() {
         return 0;
     }
 

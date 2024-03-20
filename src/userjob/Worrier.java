@@ -60,7 +60,7 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
         int randomDamage = isRandom ? (int) (Math.random() * 5) + 5 : 0;
         boolean isCritical = Math.random() <= 0.3;
         int criticalDamage = isCritical ? 50 : 20;
-        int totalDamage = baseDamage + randomDamage + criticalDamage;; // 워리어에게 부여한 기본 데미지
+        int totalDamage = baseDamage + randomDamage + criticalDamage; // 워리어에게 부여한 기본 데미지
 
         if (getMp() >= mpCost) {
 
@@ -73,7 +73,7 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다. " +
+            System.out.println("MP가 부족하여 기본 공격을 사용합니다." +
                     "\n현재 MP: " + getMp() +
                     "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
 
@@ -86,9 +86,20 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
     @Override
     public void guardMaster() {
 
-        setHp(getHp()*2);
-        System.out.println("'가드마스터' 발동! -> HP가 2배 증가 합니다. " +
-                "\n현재 HP : " + getHp());
+        int mpCost = 15;
+
+        if(getMp() >= mpCost) {
+
+            setMp(getMp() - mpCost);
+            setMaxHp(getMaxHp() * 2);
+            setHp(getHp() * 2);
+            System.out.println("'가드마스터' 발동! -> MP를 15만큼 소모하고, 최대 HP와 현재 HP가 2배 증가 합니다. " +
+                    "\n최대 HP : " + getMaxHp() + " 현재 HP : " + getHp());
+        }
+        else {
+            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp());
+        }
+
     }
 
 
