@@ -42,7 +42,7 @@ public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkil
 
     // 워리어 기본 패시브 스킬
     @Override
-    public void usePassiveSkill() {
+    void usePassiveSkill() {
 
         setMaxHp((int) (getMaxHp() * 1.5)); // 최대 체력이 1.5배 증가
         setHp((int) (getHp()*1.5)); // 현재 체력이 1.5배 증가
