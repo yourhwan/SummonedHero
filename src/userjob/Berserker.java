@@ -45,10 +45,10 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
     void usePassiveSkill() {
 
         int damage = getBasicAttackDamage() * 2; // 데미지 2배 증가
-
         int maxHp = getMaxHp() * 2; // 최대 체력이 2배 증가
         int hp = getHp() * 2; // 현재 체력이 2배 증가
-        System.out.println("'광폭화' 발동! -> HP와 공격력이 1.5배 증가 합니다. " +
+
+        System.out.println("'광폭화' 발동! -> 최대 HP와 공격력이 1.5배 증가 합니다. " +
                 "\n최대 HP : " + maxHp +
                 "\n현재 HP : " + hp +
                 "\n현재 공격력 : " + damage);
