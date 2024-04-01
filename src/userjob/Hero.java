@@ -75,6 +75,8 @@ public abstract class Hero {
     // 레벨업 메서드
     protected void checkLevelUp() {
 
+        revert(); // 레벨업을 위해 버프 해제
+
         setLevel(getLevel() + 1); // 레벨은 1씩 증가
         setMaxExp(getMaxExp() + 25); // 최대 경험치 25 증가
         setMaxHp(getMaxHp() + 20); // 최대 hp 20 증가
@@ -90,6 +92,7 @@ public abstract class Hero {
 
         System.out.println("레벨업을 축하합니다! 현재 레벨은 " + getLevel() +" 입니다. 더욱 강해진 힘을 느끼는 "+getNickname());
 
+        usePassiveSkill(); // 버프 재적용
     }
 
     // 캐릭터 정보 불러오는 메서드
@@ -179,9 +182,7 @@ public abstract class Hero {
         return mp;
     }
 
-    public void setMp(int mp) {
-        this.mp = mp;
-    }
+    public void setMp(int mp) { this.mp = mp; }
 
     public int getExp() {
         return exp;
