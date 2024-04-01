@@ -45,9 +45,9 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
     @Override
     void usePassiveSkill() {
 
-        int damage = (int) (getBasicAttackDamage() * 1.5); // 데미지 2배 증가
-        int maxHp = (int) (getMaxHp() * 1.5); // 최대 체력이 2배 증가
-        int hp = (int) (getHp() * 1.5); // 현재 체력이 2배 증가
+        int damage = (int) (getBasicAttackDamage() * 1.5); // 데미지 1.5배 증가
+        int maxHp = (int) (getMaxHp() * 1.5); // 최대 체력이 1.5배 증가
+        int hp = (int) (getHp() * 1.5); // 현재 체력이 1.5배 증가
 
         System.out.println("'어둠의 발자국' 발동! -> 최대 HP와 공격력이 1.5배 증가 합니다. " +
                 "\n최대 HP : " + maxHp +

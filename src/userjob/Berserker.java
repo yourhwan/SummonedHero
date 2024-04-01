@@ -32,7 +32,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         boolean isRandom = Math.random() <= 0.5; // 랜덤 데미지 추가 확률 설정
         int randomDamage = isRandom ? (int) (Math.random() * 9.0) + 1 : 0; // 랜덤 데미지 부여
         boolean isCritical = Math.random() <= 0.6; // 크리티컬 추가 데미지 확률 설정
-        int criticalDamage = isCritical ? 50 : 0; // 크리티컬일 경우 50의 데미지, 아닐 경우 0
+        int criticalDamage = isCritical ? 50 : 10; // 크리티컬일 경우 50의 데미지, 아닐 경우 0
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
         System.out.println(getBasicAttackName() + "! " + totalDamage + " 만큼의 피해를 가했습니다.");
@@ -48,7 +48,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         int maxHp = getMaxHp() * 2; // 최대 체력이 2배 증가
         int hp = getHp() * 2; // 현재 체력이 2배 증가
 
-        System.out.println("'광폭화' 발동! -> 최대 HP와 공격력이 1.5배 증가 합니다. " +
+        System.out.println("'광폭화' 발동! -> 최대 HP와 공격력이 2배 증가 합니다. " +
                 "\n최대 HP : " + maxHp +
                 "\n현재 HP : " + hp +
                 "\n현재 공격력 : " + damage);

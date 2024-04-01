@@ -50,7 +50,7 @@ public abstract class Hero {
         Scanner sc = new Scanner(System.in);
         System.out.println("영웅의 이름을 입력해주세요 : " );
         setNickname(sc.nextLine());
-        System.out.println("영웅의 이름이 " + getNickname() + "로   설정 되었습니다.");
+        System.out.println("영웅의 이름이 " + getNickname() + "로 설정 되었습니다.");
     }
 
     // 경험치 획득 메서드
