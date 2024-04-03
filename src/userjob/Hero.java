@@ -56,8 +56,6 @@ public abstract class Hero {
     // 경험치 획득 메서드
     protected void gainExp(int exp) {
 
-        System.out.println("+" + exp + " 만큼의 경험치를 획득했습니다.");
-
         int currentExp = getExp();
         int maxExp = getMaxExp();
 
@@ -70,6 +68,19 @@ public abstract class Hero {
         }
 
         setExp(currentExp);
+
+        System.out.println("+" + exp + "현재 경험치: " + getExp());
+    }
+
+    // 돈 획득 메서드
+    protected void gainMoney(int money) {
+
+        int currentMoney = getMoney();
+        currentMoney += money;
+
+        setMoney(currentMoney);
+
+        System.out.println("+" + money + "현재 소지금: " + getMoney());
     }
 
     // 레벨업 메서드
