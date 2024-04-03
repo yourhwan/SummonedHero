@@ -54,7 +54,7 @@ public abstract class Hero {
     }
 
     // 경험치 획득 메서드
-    protected void gainExp(int exp) {
+    public void gainExp(int exp) {
 
         int currentExp = getExp();
         int maxExp = getMaxExp();
@@ -68,19 +68,25 @@ public abstract class Hero {
         }
 
         setExp(currentExp);
-
-        System.out.println("+" + exp + "현재 경험치: " + getExp());
     }
 
     // 돈 획득 메서드
-    protected void gainMoney(int money) {
+    public void gainMoney(int money) {
 
         int currentMoney = getMoney();
         currentMoney += money;
 
         setMoney(currentMoney);
+    }
 
-        System.out.println("+" + money + "현재 소지금: " + getMoney());
+    // 사망으로 인한 전투 패배 메서드
+    protected void defeat() {
+
+        if (!isAlive()) {
+
+            revert(); // 버프 해제
+            System.out.println("HP가 0이 되어 전투에서 패배 했습니다. 마을로 돌아갑니다.");
+        }
     }
 
     // 레벨업 메서드
