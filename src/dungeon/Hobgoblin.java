@@ -24,7 +24,8 @@ public class Hobgoblin extends Goblin{
 
     // 홉고블린 고유 스킬
     @Override
-    void goblinSkill() {
+    int goblinAttSkill(Hero hero) {
 
+        return 0;
     }
 }

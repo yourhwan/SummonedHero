@@ -18,6 +18,7 @@ public abstract class Monster {
     abstract int dropMoney(); // 떨굴 돈 추상 메서드
     abstract int dropExp(); // 떨굴 경험치 추상 메서드
     abstract int useBasicAttack(Hero hero); // 일반 공격
+    abstract int randomAttack(Hero hero);
 
     // 공격 받았을 경우 피해를 처리하는 메서드
     public void takeDamage(int damage) {
