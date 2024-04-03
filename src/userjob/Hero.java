@@ -61,6 +61,8 @@ public abstract class Hero {
 
         currentExp += exp;
 
+        System.out.println(exp + "만큼의 경험치를 획득 했습니다.");
+
         while(currentExp >= maxExp) {
             checkLevelUp();
             currentExp -= maxExp;
@@ -77,6 +79,8 @@ public abstract class Hero {
         currentMoney += money;
 
         setMoney(currentMoney);
+
+        System.out.println(money + "만큼의 돈을 획득 했습니다.");
     }
 
     // 사망으로 인한 전투 패배 메서드

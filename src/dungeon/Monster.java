@@ -17,9 +17,11 @@ public abstract class Monster {
     // 하위 클래스에서 구현할 추상 메서드 생성
     abstract int dropMoney(); // 떨굴 돈 추상 메서드
     abstract int dropExp(); // 떨굴 경험치 추상 메서드
+    abstract int useBasicAttack(Hero hero); // 일반 공격
 
     // 공격 받았을 경우 피해를 처리하는 메서드
     public void takeDamage(int damage) {
+
         hp -= damage; // 몬스터의 체력을 사용자로 부터의 피해량 만큼 감소 시킨다
 
         if (hp < 0) {
@@ -33,8 +35,9 @@ public abstract class Monster {
         return hp > 0;
     }
 
-    // 몬스터 사망처리 및 사용자에게 경험치 및 돈 제공 메서드
+    // 몬스터 사망 처리 및 사용자에게 경험치 및 돈 제공 메서드
     private void defeat(Hero hero) {
+
         if (!isAlive()) {
             // 몬스터에게 획득한 경험치
             int exp = dropExp();
@@ -48,7 +51,7 @@ public abstract class Monster {
             // 히어로 클래스의 돈 획득 메서드 호출
             hero.gainMoney(money);
 
-            System.out.println("몬스터를 처치했습니다. 경험치 " + exp+ ", 돈 " + money+ "을 획득합니다." +
+            System.out.println("몬스터를 처치했습니다. 경험치 " + exp+ ", 돈 " + money+ "을 획득 합니다." +
                     "\n현재 경험치: " + getExp() + " 현재 소지금: " + getMoney());
         }
     }
