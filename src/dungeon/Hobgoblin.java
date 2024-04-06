@@ -23,9 +23,26 @@ public class Hobgoblin extends Goblin{
     }
 
     // 홉고블린 고유 스킬
+
     @Override
     int goblinAttSkill(Hero hero) {
 
+        int damage = (int) (getBasicDamage() * 1.5);
+        hero.takeDamage(damage);
+
+        System.out.println("홉고블린이 스킬공격을 합니다. 홉고블린의 분노!" +
+                "\n"+damage+"만큼의 피해를 입었습니다.");
+
+        return damage;
+    }
+
+    // 홉고블린의 랜덤 공격
+    @Override
+    int randomAttack(Hero hero) {
         return 0;
     }
+
+
+
+
 }

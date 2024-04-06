@@ -10,7 +10,7 @@ public class Goblina extends Goblin{
 
         setName("고블리나");
         setHp(50); // 고블리나 체력
-        setExp(7); // 고블리나 떨굴 경험치
+        setExp(20); // 고블리나 떨굴 경험치
         setMoney(300); // 고블리나 떨굴 돈
         setBasicAttackName("몽둥이 휘두르기"); // 고블리나 공격 이름
         setBasicDamage(7); // 고블리나 공격력

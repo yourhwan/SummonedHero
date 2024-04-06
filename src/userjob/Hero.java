@@ -25,24 +25,41 @@ public abstract class Hero {
     private int basicAttackDamage; // 기본 공격 데미지
     private int initialDamage; // 버프 스킬 사용 전 데미지 저장용
 
-
     // 하위 클래스에서 구현할 추상 메서드 생성
+
     abstract int useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
     abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
 
-    // 공격 받았을 경우 피해를 처리하는 메서드
-    public void takeDamage(int damage) {
-        hp -= damage; // 사용자의 체력을 몬스터로 부터의 피해량 만큼 감소 시킨다
-
-        if (hp < 0) {
-            hp = 0; // 체력이 0 미만이 되지 않도록
-        }
-    }
 
     // 생존여부 확인 메서드
     public boolean isAlive() {
 
         return hp > 0;
+    }
+
+    // 사망으로 인한 전투 패배 메서드
+    protected void defeat() {
+
+        if (!isAlive()) {
+
+            revert(); // 버프 해제
+            System.out.println("HP가 0이 되어 사망 했습니다. 마을로 돌아갑니다.");
+        }
+    }
+
+    // 공격 받았을 경우 피해를 처리하는 메서드
+    public void takeDamage(int damage) {
+        hp -= damage; // 사용자의 체력을 몬스터로 부터의 피해량 만큼 감소 시킨다
+        System.out.println("현재 HP: " + getHp() + "/" + getMaxHp());
+
+        if (hp < 0) {
+            hp = 0; // 체력이 0 미만이 되지 않도록
+        }
+
+        if (!isAlive()) {
+            defeat();
+        }
+
     }
 
     // 닉네임 설정 메서드
@@ -81,16 +98,6 @@ public abstract class Hero {
         setMoney(currentMoney);
 
         System.out.println(money + "만큼의 돈을 획득 했습니다.");
-    }
-
-    // 사망으로 인한 전투 패배 메서드
-    protected void defeat() {
-
-        if (!isAlive()) {
-
-            revert(); // 버프 해제
-            System.out.println("HP가 0이 되어 전투에서 패배 했습니다. 마을로 돌아갑니다.");
-        }
     }
 
     // 레벨업 메서드
