@@ -60,7 +60,7 @@ public class Hobgoblin extends Goblin{
         Random random = new Random();
         int randomNumber = random.nextInt(100); // 0~99 난수 생성
 
-        if (randomNumber < 30) {
+        if (randomNumber < 25) {
             // 30% 확률로 스킬공격 사용
             return goblinAttSkill(hero);
         } else {
