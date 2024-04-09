@@ -49,8 +49,10 @@ public abstract class Hero {
 
     // 공격 받았을 경우 피해를 처리하는 메서드
     public void takeDamage(int damage) {
+
         hp -= damage; // 사용자의 체력을 몬스터로 부터의 피해량 만큼 감소 시킨다
-        System.out.println("현재 HP: " + getHp() + "/" + getMaxHp());
+        System.out.println(damage + " 만큼의 피해를 입었습니다." +
+                "\n현재 HP: " + getHp() + "/" + getMaxHp());
 
         if (hp < 0) {
             hp = 0; // 체력이 0 미만이 되지 않도록

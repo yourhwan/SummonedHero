@@ -28,33 +28,13 @@ public abstract class Monster {
         if (hp < 0) {
             hp = 0; // 체력이 0 미만이 되지 않도록
         }
+
     }
 
     // 생존여부 확인 메서드
     public boolean isAlive() {
 
         return hp > 0;
-    }
-
-    // 몬스터 사망 처리 및 사용자에게 경험치 및 돈 제공 메서드
-    private void defeat(Hero hero) {
-
-        if (!isAlive()) {
-            // 몬스터에게 획득한 경험치
-            int exp = dropExp();
-
-            // 몬스터에게 획득한 돈
-            int money = dropMoney();
-
-            // 히어로 클래스의 경험치 획득 메서드 호출
-            hero.gainExp(exp);
-
-            // 히어로 클래스의 돈 획득 메서드 호출
-            hero.gainMoney(money);
-
-            System.out.println("몬스터를 처치했습니다. 경험치 " + exp+ ", 돈 " + money+ "을 획득 합니다." +
-                    "\n현재 경험치: " + getExp() + " 현재 소지금: " + getMoney());
-        }
     }
 
 

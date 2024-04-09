@@ -10,10 +10,10 @@ public class Goblina extends Goblin{
 
         setName("고블리나");
         setHp(50); // 고블리나 체력
-        setExp(20); // 고블리나 떨굴 경험치
+        setExp(10); // 고블리나 떨굴 경험치
         setMoney(300); // 고블리나 떨굴 돈
-        setBasicAttackName("몽둥이 휘두르기"); // 고블리나 공격 이름
-        setBasicDamage(7); // 고블리나 공격력
+        setBasicAttackName("돌맹이 던지기"); // 고블리나 공격 이름
+        setBasicDamage(6); // 고블리나 공격력
     }
 
 
@@ -37,8 +37,7 @@ public class Goblina extends Goblin{
         int damage = getBasicDamage();
         hero.takeDamage(damage);
 
-        System.out.println("고블리나가 공격을 합니다. " + getBasicAttackName() + "!" +
-                "\n"+damage+"만큼의 피해를 입었습니다.");
+        System.out.println("고블리나가 공격을 합니다. " + getBasicAttackName() + "!");
 
         return damage;
     }
@@ -50,8 +49,7 @@ public class Goblina extends Goblin{
         int damage = (int) (getBasicDamage() * 1.5);
         hero.takeDamage(damage);
 
-        System.out.println("고블리나가 스킬공격을 합니다. 고블리나의 분노!" +
-                "\n"+damage+"만큼의 피해를 입었습니다.");
+        System.out.println("고블리나가 스킬공격을 합니다. 고블리나의 분노!");
 
         return damage;
     }
