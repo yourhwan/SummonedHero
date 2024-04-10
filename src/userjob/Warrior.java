@@ -1,11 +1,11 @@
 package userjob;
-import skills.WorrierAttackSkill;
-import skills.WorrierBuffSkill;
+import skills.WarriorAttackSkill;
+import skills.WarriorBuffSkill;
 
-public class Worrier extends Hero implements WorrierAttackSkill, WorrierBuffSkill {
+public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkill {
 
     // 워리어 생성자
-    public Worrier() {
+    public Warrior() {
 
         setMaxHp(150);                  // 최대 체력
         setMaxMp(150);                  // 최대 마력

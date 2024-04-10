@@ -2,7 +2,7 @@ package userjob;
 
 import skills.*;
 
-public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMasterBuffSkill, WorrierAttackSkill, BerserkerAttackSkill, DualBladeAttackSkill {
+public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMasterBuffSkill, WarriorAttackSkill, BerserkerAttackSkill, DualBladeAttackSkill {
 
     public SwordMaster() {
 

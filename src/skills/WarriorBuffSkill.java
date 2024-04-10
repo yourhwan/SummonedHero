@@ -1,6 +1,6 @@
 package skills;
 
-public interface WorrierBuffSkill {
+public interface WarriorBuffSkill {
 
     // 워리어 버프 스킬
     void guardMaster();
