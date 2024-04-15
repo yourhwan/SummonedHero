@@ -234,7 +234,7 @@ public class Story {
                     // 천사 던
                     System.out.println("‣타락한 천사들의 천궁으로 입장합니다...\n");
                     AngelDungeon.enterAngelDungeon(scanner, hero);
-                    break;
+                    break;친
                 case 0:
                     // 마을
                     return;

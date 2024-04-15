@@ -45,12 +45,12 @@ public class DevilDungeon {
             monsters.add(devil);
         }
 
-        devilCounts.put("Medieval Devil", numMedievalDevil);
-        devilCounts.put("Modern Devil", numModernDevil);
-        devilCounts.put("Ancient Devil", numAncientDevil);
-        devilCounts.put("PrimordialDevil", numPrimordialDevil);
+        devilCounts.put("중세 악마", numMedievalDevil);
+        devilCounts.put("현대 악마", numModernDevil);
+        devilCounts.put("고대 악마", numAncientDevil);
+        devilCounts.put("원시 악마", numPrimordialDevil);
 
-        System.out.println("‣던전에 진입했습니다. 생성된 몬스터들:");
+        System.out.println("‣악마의 은신처에 진입했습니다. 생성된 몬스터들:");
         for (Map.Entry<String, Integer> entry : devilCounts.entrySet()) {
             System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + " 마리");
         }
@@ -235,7 +235,7 @@ public class DevilDungeon {
             }
 
             // 악마의 턴
-            System.out.println("\n‣악마의 턴:\n");
+            System.out.println("\n‣몬스의 턴:\n");
             int totalHeroHP = hero.getHp();
             for (Monster monster : monsters) {
                 int damage = monster.randomAttack(hero);
@@ -257,6 +257,7 @@ public class DevilDungeon {
     }
 
     private static int selectSkill(Scanner scanner, Hero hero) {
+        System.out.println("=================== 스킬 선택 ===================");
         System.out.println("‣스킬을 선택하세요:\n");
         if (hero instanceof SwordMaster) {
             System.out.println("‣1. 패스트 슬래시");
@@ -274,6 +275,7 @@ public class DevilDungeon {
             System.out.println("‣1. 파워 스트라이크");
             System.out.println("‣2. 가드 마스터\n");
         }
+        System.out.println("====================================================");
         return scanner.nextInt();
     }
 }
