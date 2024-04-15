@@ -4,49 +4,55 @@ import userjob.*;
 
 import java.util.*;
 
-public class OgreDungeon {
+public class DevilDungeon {
 
-    public static void enterOgreDungeon(Scanner scanner, Hero hero) {
+    public static void enterDevilDungeon(Scanner scanner, Hero hero) {
 
-        int numOgres = new Random().nextInt(5) + 4; // 랜덤으로 5에서 8까지의 오거 생성
-        Map<String, Integer> ogreCounts = new HashMap<>();
+        int numDevils = new Random().nextInt(5) + 6; // 랜덤으로 5에서 10까지의 악마 생성
+        Map<String, Integer> devilCounts = new HashMap<>();
         List<Monster> monsters = new ArrayList<>();
 
-        int numOni = 0;
-        int numKijin = 0;
-        int numKishin = 0;
+        int numMedievalDevil = 0;
+        int numModernDevil = 0;
+        int numAncientDevil = 0;
+        int numPrimordialDevil = 0;
 
-        for (int i = 0; i < numOgres; i++) {
-            int ogreType = new Random().nextInt(3);
-            Monster ogre;
-            switch (ogreType) {
+        for (int i = 0; i < numDevils; i++) {
+            int devilType = new Random().nextInt(4);
+            Monster devil;
+            switch (devilType) {
                 case 0:
-                    ogre = new Oni();
-                    numOni++;
+                    devil = new MedievalDevil();
+                    numMedievalDevil++;
                     break;
                 case 1:
-                    ogre = new Kijin();
-                    numKijin++;
+                    devil = new ModernDevil();
+                    numModernDevil++;
                     break;
                 case 2:
-                    ogre = new Kishin();
-                    numKishin++;
+                    devil = new AncientDevil();
+                    numAncientDevil++;
+                    break;
+                case 3:
+                    devil = new PrimordialDevil();
+                    numPrimordialDevil++;
                     break;
                 default:
-                    ogre = new Oni();
-                    numOni++;
+                    devil = new MedievalDevil();
+                    numMedievalDevil++;
                     break;
             }
-            monsters.add(ogre);
+            monsters.add(devil);
         }
 
-        ogreCounts.put("Oni", numOni);
-        ogreCounts.put("Kijin", numKijin);
-        ogreCounts.put("Kishin", numKishin);
+        devilCounts.put("Medieval Devil", numMedievalDevil);
+        devilCounts.put("Modern Devil", numModernDevil);
+        devilCounts.put("Ancient Devil", numAncientDevil);
+        devilCounts.put("PrimordialDevil", numPrimordialDevil);
 
         System.out.println("‣던전에 진입했습니다. 생성된 몬스터들:");
-        for (Map.Entry<String, Integer> entry : ogreCounts.entrySet()) {
-            System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + "마리");
+        for (Map.Entry<String, Integer> entry : devilCounts.entrySet()) {
+            System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + " 마리");
         }
         System.out.println();
 
@@ -64,11 +70,11 @@ public class OgreDungeon {
                     int totalMonsterHP = monsters.stream().mapToInt(Monster::getHp).sum();
                     for (Monster monster : monsters) {
                         int damage = hero.useBasicAttack();
-                        System.out.println("‣상대에게 " + damage + " 의 피해를 입혔습니다.\n");
+                        System.out.println("‣적에게 " + damage + "의 피해를 입혔습니다.\n");
                         if (monster.getHp() - damage <= 0) {
-                            System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                            System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                             monsters.remove(monster);
-                            ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                            devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                             hero.gainExp(monster.dropExp());
                             hero.gainMoney(monster.dropMoney());
                             break;
@@ -85,9 +91,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣패스트 슬래시를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -99,9 +105,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣세비지 블로우를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -113,9 +119,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣블러드 스트라이크를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -127,9 +133,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣파워 스트라이크를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -151,9 +157,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣세비지 블로우를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -175,9 +181,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣블러드 스트라이크를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -199,9 +205,9 @@ public class OgreDungeon {
                                 for (Monster monster : monsters) {
                                     System.out.println("‣파워 스트라이크를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
                                     if (monster.getHp() - damage <= 0) {
-                                        System.out.println("‣" + monster.getName() + " 을(를) 처치했습니다!\n");
+                                        System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
                                         monsters.remove(monster);
-                                        ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                        devilCounts.put(monster.getName(), devilCounts.get(monster.getName()) - 1);
                                         hero.gainExp(monster.dropExp());
                                         hero.gainMoney(monster.dropMoney());
                                         break;
@@ -224,24 +230,28 @@ public class OgreDungeon {
             }
 
             if (monsters.isEmpty()) {
-                System.out.println("‣모든 오우거를 물리쳤습니다. 전투에서 승리하셨습니다!\n");
+                System.out.println("‣모든 악마를 물리쳤습니다. 전투에서 승리했습니다!\n");
                 break;
             }
 
-            // 몬스터의 턴
-            System.out.println("\n‣Monster's Turn:\n");
+            // 악마의 턴
+            System.out.println("\n‣악마의 턴:\n");
             int totalHeroHP = hero.getHp();
             for (Monster monster : monsters) {
                 int damage = monster.randomAttack(hero);
-                System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다\n");
+                System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
                 if (hero.getHp() <= 0) {
+                    System.out.println("========================= 전투 결과 =========================");
                     System.out.println("‣전투에서 패배했습니다.\n");
+                    System.out.println("‣내 정보");
+                    System.out.println(hero); // 사용자 정보
+                    System.out.println("==========================================================");
                     hero.revert();
                     return;
                 }
             }
             if (totalHeroHP == hero.getHp()) {
-                System.out.println("‣오우거의 공격이 빗나갔습니다!\n");
+                System.out.println("‣악마의 공격이 빗나갔습니다!\n");
             }
         }
     }
@@ -266,5 +276,5 @@ public class OgreDungeon {
         }
         return scanner.nextInt();
     }
-
 }
+

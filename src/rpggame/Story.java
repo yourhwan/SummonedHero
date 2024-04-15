@@ -1,5 +1,7 @@
 package rpggame;
 
+import dungeon.AngelDungeon;
+import dungeon.DevilDungeon;
 import dungeon.GoblinDungeon;
 import dungeon.OgreDungeon;
 import userjob.*;

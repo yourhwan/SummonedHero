@@ -37,7 +37,6 @@ public class GoblinDungeon {
             monsters.add(goblin); // 생성된 고블린을 몬스터 리스트에 추가
         }
 
-
         goblinCounts.put("Goblina", numGoblina);
         goblinCounts.put("Hobgoblin", numHobgoblin);
 
