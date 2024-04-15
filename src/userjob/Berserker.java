@@ -1,5 +1,6 @@
 package userjob;
 
+import dungeon.Monster;
 import skills.BerserkerAttackSkill;
 import skills.BerserkerBuffSkill;
 
@@ -26,7 +27,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
 
     // 버서커 기본 공격
     @Override
-    int useBasicAttack() {
+    public int useBasicAttack() {
 
         int baseDamage = getBasicAttackDamage(); // 버서프에게 부여한 기본 데미지
         boolean isRandom = Math.random() <= 0.5; // 랜덤 데미지 추가 확률 설정

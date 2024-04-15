@@ -1,5 +1,6 @@
 package userjob;
 
+import dungeon.Monster;
 import skills.DualBladeAttackSkill;
 import skills.DualBladeBuffSkill;
 
@@ -26,7 +27,7 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
 
     // 듀얼블레이드 기본 공격
     @Override
-    int useBasicAttack() {
+    public int useBasicAttack() {
 
         int baseDamage = getBasicAttackDamage(); // 듀얼블레이드에게 부여한 기본 데미지
 

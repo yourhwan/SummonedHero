@@ -1,4 +1,5 @@
 package userjob;
+import dungeon.Monster;
 import skills.WarriorAttackSkill;
 import skills.WarriorBuffSkill;
 
@@ -26,7 +27,7 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
 
     // 워리어 기본 공격
     @Override
-    int useBasicAttack() {
+    public int useBasicAttack() {
 
         int baseDamage = getBasicAttackDamage(); // 워리어에게 부여한 기본 데미지
         boolean isRandom = Math.random() <= 0.5; // 랜덤 데미지 추가 확률 설정

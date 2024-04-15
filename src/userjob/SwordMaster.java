@@ -1,5 +1,6 @@
 package userjob;
 
+import dungeon.Monster;
 import skills.*;
 
 public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMasterBuffSkill, WarriorAttackSkill, BerserkerAttackSkill, DualBladeAttackSkill {
@@ -25,7 +26,7 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
 
     // 소드마스터 기본 공격
     @Override
-    int useBasicAttack() {
+    public int useBasicAttack() {
 
         int baseDamage = getBasicAttackDamage(); // 소드마스터에게 부여한 기본 데미지
         boolean isRandom = Math.random() <= 0.3; // 랜덤 데미지 추가 확률 설정

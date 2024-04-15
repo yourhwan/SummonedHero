@@ -1,7 +1,7 @@
 package userjob;
 
 
-import java.util.Scanner;
+import dungeon.Monster;
 
 public abstract class Hero {
 
@@ -27,7 +27,7 @@ public abstract class Hero {
 
     // 하위 클래스에서 구현할 추상 메서드 생성
 
-    abstract int useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
+    public abstract int useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
     abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
 
 

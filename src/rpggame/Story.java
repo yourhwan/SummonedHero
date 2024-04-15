@@ -1,5 +1,7 @@
 package rpggame;
 
+import dungeon.GoblinDungeon;
+import dungeon.OgreDungeon;
 import userjob.*;
 
 import java.util.*;
@@ -30,12 +32,12 @@ public class Story {
             int choice;
             do {
                 // 기본 화면
-                System.out.println("\n================================== 마을 ==================================");
+                System.out.println("\n====== ▷ 마을 ◁ =====================================[LV."+ hero.getLevel() +" "+ hero.getJob()+ " " +hero.getNickname() +"]===");
                 System.out.println("1. " + hero.getNickname() + " 의 정보 확인");
                 System.out.println("2. 상점");
                 System.out.println("3. 마물 던전");
                 System.out.println("4. 모험 종료");
-                System.out.println("==========================================================================");
+                System.out.println("===========================================================================");
 
                 choice = scanner.nextInt();
 
@@ -50,7 +52,7 @@ public class Story {
                         goToStore(scanner, hero); // 상점
                         break;
                     case 3:
-                        // enterDungeon(scanner, hero);
+                        enterDungeon(scanner, hero);
                         break;
                     case 4:
                         System.out.println("================================ 모험을 종료합니다. ================================");
@@ -65,7 +67,15 @@ public class Story {
         else {
             System.out.println("‣소환을 거부했습니다. Summoned Hero를 종료합니다.");
         }
-    }
+    } // end of Main------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
     // 캐릭터 생성 메서드
     private static Hero createHero(Scanner scanner) {
@@ -81,10 +91,10 @@ public class Story {
             // 직업 선택 인터페이스
             System.out.println("\n‣소환자들: 용사님은 이세계에서 원하시는 클래스를 마음대로 선택하실 수 있습니다. 저희가 용사님을 위해 준비해두었습니다." +
                     "\n‣마음에 드는 클래스를 선택해주세요. 클래스 선택의 기회는 단 한번 뿐이니 신중히 결정해주세요.\n");
-            System.out.println("1. 듀얼블레이드");
-            System.out.println("2. 소드마스터");
-            System.out.println("3. 버서커");
-            System.out.println("4. 워리어");
+            System.out.println("1. 듀얼블레이드 -> 양손검을 사용하는 클래스. 치명타 확률이 가장 높지만 적은 HP를 가지고 있다.");
+            System.out.println("2. 소드마스터 -> 모든 검을 자유자재로 사용하는 클래스. 전 직업의 스킬을 사용할 수 있지만 타직업 스킬 사용시 MP와 HP를 모두 소모한다.");
+            System.out.println("3. 버서커 -> 광폭화와 대검을 사용하는 클래스 -> 높은 체력과 치명타 확률을 보유한 클래스로 유려한 전투가 가능하다.");
+            System.out.println("4. 워리어 -> 롱소드를 사용하는 기본에 충실한 클래스 -> 높은 체력과 공격력을 보유한 클래스로 안정적인 전투가 가능하다.");
             int jobChoice = scanner.nextInt();
 
             // 닉네임 설정 인터페이스
@@ -129,6 +139,7 @@ public class Story {
         int buyingChoice;
 
         do {
+            System.out.println("어서오세요 용사님~! 용사님의 모험을 위한 신비로운 물건들이 준비되어 있습니다! 편하게 말씀해주세요!!!!\n");
             System.out.println("\n\n================================ 상점 ================================");
             System.out.println("[1. HP 증가 영약: 3000원 -> 10 증가]  [2. MP 증가 영약: 2000원 -> 20 증가]  [3.공격력 증가 영약: 5000원 -> 10 증가]");
             System.out.println("[0. 마을로 돌아가기]");
@@ -185,6 +196,53 @@ public class Story {
         } while (buyingChoice != 0) ;
 
     }
+
+    // 던전
+    private static void enterDungeon(Scanner scanner, Hero hero) {
+        int choice;
+        do {
+            System.out.println("‣던전 문지기: 용사님!! 전투를 위한 준비는 잘 마치셨습니까? 건투를 빕니다!!!!!\n");
+            System.out.println("=========================== 던전 ===========================");
+            System.out.println("1. 고블린 마을 -> 난이도: 하");
+            System.out.println("2. 오거 마을 -> 난이도 : 중");
+            System.out.println("3. 악마의 은신처 -> 난이도 : 상");
+            System.out.println("4. 타락한 천사들의 천궁 -> 난이도 : 최상");
+            System.out.println("[0. 마을로 돌아가기]");
+            System.out.println("===============================================================\n");
+
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    // 고블린 던전
+                    System.out.println("‣고블린 마을에 입장합니다...\n");
+                    GoblinDungeon.enterGoblinDungeon(scanner, hero);
+                    break;
+                case 2:
+                    // 오거 던전
+                    System.out.println("‣오거 마을에 입장합니다...\n");
+                    OgreDungeon.enterOgreDungeon(scanner, hero);
+                    break;
+                case 3:
+                    // 악마 던전
+                    System.out.println("‣악마의 은신처로 입장합니다...\n");
+                    DevilDungeon.enterDevilDungeon(scanner, hero);
+                    break;
+                case 4:
+                    // 천사 던
+                    System.out.println("‣타락한 천사들의 천궁으로 입장합니다...\n");
+                    AngelDungeon.enterAngelDungeon(scanner, hero);
+                    break;
+                case 0:
+                    // 마을
+                    return;
+                default:
+                    System.out.println("‣올바른 던전을 선택해주세요.\n");
+            }
+        } while (choice != 0);
+    }
+
+
 }
 
 
