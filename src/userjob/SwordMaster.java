@@ -42,7 +42,7 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
 
     // 소드마스터 기본 패시브 스킬
     @Override
-    void usePassiveSkill() {
+    public void usePassiveSkill() {
 
         int damage = getBasicAttackDamage() + 20;
         int maxHp = getInitialMaxHp() + 50;

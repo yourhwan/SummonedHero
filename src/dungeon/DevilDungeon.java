@@ -1,6 +1,6 @@
 package dungeon;
 
-import dungeon.Monster;
+import rpggame.Story;
 import userjob.*;
 
 import java.util.*;
@@ -58,29 +58,8 @@ public class DevilDungeon {
         System.out.println();
 
         // 몬스터 공격 스레드
-        Thread monsterAttackThread = new Thread(() -> {
-            while (!monsters.isEmpty() && hero.isAlive()) {
-                try {
-                    Thread.sleep(1500); // 1.5초마다
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                for (Monster monster : monsters) {
-                    int damage = monster.randomAttack(hero);
-                    System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
-                    if (hero.getHp() <= 0) {
-                        System.out.println("========================= 전투 결과 =========================");
-                        System.out.println("‣전투에서 패배했습니다.\n");
-                        System.out.println("‣내 정보");
-                        System.out.println(hero); // 사용자 정보
-                        System.out.println("==========================================================");
-                        hero.revert();
-                        return;
-                    }
-                }
-            }
-        });
-        monsterAttackThread.start();
+        DevilDungeonBattleThread battleThread = new DevilDungeonBattleThread(hero, monsters, devilCounts, scanner);
+        battleThread.start();
 
         while (!monsters.isEmpty() && hero.isAlive()) {
             System.out.println("========================= 전투 메뉴 =========================");
@@ -120,34 +99,37 @@ public class DevilDungeon {
                 break;
             }
         }
-
-        try {
-            monsterAttackThread.join(); // Wait for monster attack thread to finish
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // 전투 종료 후 마을로 가거나 다른 던전 선택 가능하도록
+        Story.village(hero, scanner);
     }
 
     private static int selectSkill(Scanner scanner, Hero hero) {
         System.out.println("=================== 스킬 선택 ===================");
         System.out.println("‣스킬을 선택하세요:\n");
+
         if (hero instanceof SwordMaster) {
             System.out.println("‣1. 패스트 슬래시");
             System.out.println("‣2. 세비지 블로우");
             System.out.println("‣3. 블러드 스트라이크");
             System.out.println("‣4. 파워 스트라이크");
-            System.out.println("‣5. 소드 마스터리\n");
+            System.out.println("‣5. 소드 마스터리");
+            System.out.println("‣6. 패시브 스킬 사용\n");
         } else if (hero instanceof DualBlade) {
             System.out.println("‣1. 세비지 블로우");
-            System.out.println("‣2. 인듀어런스\n");
+            System.out.println("‣2. 인듀어런스");
+            System.out.println("‣3. 패시브 스킬 사용\n");
         } else if (hero instanceof Berserker) {
             System.out.println("‣1. 블러드 스트라이크");
-            System.out.println("‣2. 피의 욕망\n");
+            System.out.println("‣2. 피의 욕망");
+            System.out.println("‣3. 패시브 스킬 사용\n");
         } else if (hero instanceof Warrior) {
             System.out.println("‣1. 파워 스트라이크");
-            System.out.println("‣2. 가드 마스터\n");
+            System.out.println("‣2. 가드 마스터");
+            System.out.println("‣3. 패시브 스킬 사용\n");
         }
+
         System.out.println("====================================================");
+
         return scanner.nextInt();
     }
 
@@ -172,6 +154,9 @@ public class DevilDungeon {
                 } else {
                     System.out.println("‣유효하지 않은 선택입니다.\n");
                 }
+                return;
+            case 6:
+                handlePassiveSkill(hero);
                 break;
             default:
                 System.out.println("‣유효하지 않은 선택입니다.\n");
@@ -235,6 +220,29 @@ public class DevilDungeon {
                 break;
             }
         }
+    }
+
+    private static void handlePassiveSkill(Hero hero) {
+        System.out.println("=================== 패시브 스킬 사용 ===================");
+        System.out.println("‣패시브 스킬을 사용합니다.\n");
+
+        if (hero instanceof SwordMaster) {
+            SwordMaster swordMaster = (SwordMaster) hero;
+            swordMaster.usePassiveSkill();
+        } else if (hero instanceof DualBlade) {
+            DualBlade dualBlade = (DualBlade) hero;
+            dualBlade.usePassiveSkill();
+        } else if (hero instanceof Berserker) {
+            Berserker berserker = (Berserker) hero;
+            berserker.usePassiveSkill();
+        } else if (hero instanceof Warrior) {
+            Warrior warrior = (Warrior) hero;
+            warrior.usePassiveSkill();
+        } else {
+            System.out.println("‣사용할 수 없는 직업 입니다.");
+        }
+
+        System.out.println("=========================================================");
     }
 
 

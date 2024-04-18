@@ -36,23 +36,23 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         int criticalDamage = isCritical ? 50 : 10; // 크리티컬일 경우 50의 데미지, 아닐 경우 0
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
-        System.out.println(getBasicAttackName() + "! " + totalDamage + " 만큼의 피해를 가했습니다.");
+        System.out.println("‣"+getBasicAttackName() + "! " + totalDamage + " 만큼의 피해를 가했습니다.");
 
         return totalDamage;
     }
 
     // 버서커 기본 패시브 스킬
     @Override
-    void usePassiveSkill() {
+    public void usePassiveSkill() {
 
         int damage = getBasicAttackDamage() * 2; // 데미지 2배 증가
         int maxHp = getMaxHp() * 2; // 최대 체력이 2배 증가
         int hp = getHp() * 2; // 현재 체력이 2배 증가
 
-        System.out.println("'광폭화' 발동! -> 최대 HP와 공격력이 2배 증가 합니다. " +
-                "\n최대 HP : " + maxHp +
-                "\n현재 HP : " + hp +
-                "\n현재 공격력 : " + damage);
+        System.out.println("‣'광폭화' 발동! -> 최대 HP와 공격력이 2배 증가 합니다. " +
+                "\n‣최대 HP : " + maxHp +
+                "\n‣현재 HP : " + hp +
+                "\n‣현재 공격력 : " + damage);
     }
 
     // 버서커 인터페이스 공격 스킬
@@ -72,16 +72,15 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
             setHp(getHp() - hpCost); // hp 감소
             setMp(getMp() - mpCost); // mp 감소
 
-            System.out.println("블러드 스트라이크의 사용으로 HP가 15, MP가 10 만큼 감소했습니다." +
-                    "\n현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
-                    "\n블러드 스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣블러드 스트라이크의 사용으로 HP가 15, MP가 10 만큼 감소했습니다." +
+                    "\n‣현재 HP: " + getHp() + ", 현재 MP: " + getMp() + "\n");
 
             return totalDamage;
         }
         else {
-            System.out.println("HP 또는 MP가 부족하여 기본 공격을 사용합니다. " +
-                    "\n현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣HP 또는 MP가 부족하여 기본 공격을 사용합니다. " +
+                    "\n‣현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
+                    "\n‣" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
 
             return useBasicAttack();
         }

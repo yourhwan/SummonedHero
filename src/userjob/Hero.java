@@ -28,7 +28,7 @@ public abstract class Hero {
     // 하위 클래스에서 구현할 추상 메서드 생성
 
     public abstract int useBasicAttack(); // 일반 공격 사용, 하위 클래스 특성에 맞게 작성할 예정
-    abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
+    public abstract void usePassiveSkill(); // 패시브 스킬 사용, 하위 클래스 특성에 맞게 작성할 예정
 
 
     // 생존여부 확인 메서드
@@ -42,7 +42,6 @@ public abstract class Hero {
 
         if (!isAlive()) {
 
-            revert(); // 버프 해제
             System.out.println("HP가 0이 되어 사망 했습니다. 마을로 돌아갑니다.");
         }
     }

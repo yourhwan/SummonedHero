@@ -11,6 +11,11 @@ import java.util.*;
 public class Story {
     public static void main(String[] args) {
 
+        String filePath = "EmbracingMe.wav";
+
+        BackgroundMusicThread musicThread = new BackgroundMusicThread(filePath);
+        musicThread.start();
+
         System.out.println("‣Summoned Hero에 접속하셨습니다. 모든 선택 및 답변은 주어지는 선택지의 숫자를 입력해주시면 됩니다." +
                 "\n\n‣당신은 마물들의 공격으로 멸망 위기에 처한 세계로 소환이 될 예정입니다." +
                 "\n‣만약 소환을 원하지 않는다면 거부할 수도 있습니다." +
@@ -31,53 +36,59 @@ public class Story {
             System.out.println("\n‣소환자들: 이제 이세계에서의 용사님의 모험을 위한 준비는 모두 마무리 되었습니다! " + hero.getJob() + " " + hero.getNickname() + "용사님!" +
                     "\n‣용사님의 정보 확인은 언제든 가능합니다. 이제 모험을 통해 더욱 강해지시고, 절망에 물든 이 세상을 구원해주세요!\n\n\n");
 
-            int choice;
-            do {
-                // 기본 화면
-                System.out.println("\n====== ▷ 마을 ◁ =====================================[LV."+ hero.getLevel() +" "+ hero.getJob()+ " " +hero.getNickname() +"]===");
-                System.out.println("1. " + hero.getNickname() + " 의 정보 확인");
-                System.out.println("2. 상점");
-                System.out.println("3. 마물 던전");
-                System.out.println("4. 모험 종료");
-                System.out.println("===========================================================================");
-
-                choice = scanner.nextInt();
-
-                switch (choice) {
-                    case 0:
-                        // 마을로 돌아가기
-                        break;
-                    case 1:
-                        System.out.println(hero); // 사용자 정보
-                        break;
-                    case 2:
-                        goToStore(scanner, hero); // 상점
-                        break;
-                    case 3:
-                        enterDungeon(scanner, hero);
-                        break;
-                    case 4:
-                        System.out.println("================================ 모험을 종료합니다. ================================");
-                        System.exit(0);
-                    default:
-                        System.out.println("✘ 행선지를 다시 확인해주세요! ✘");
-                }
-            } while (choice != 0);
+            // 마을로 이동
+            village(hero, scanner);
         }
 
-        /////////////////////////// 게임 종료 ///////////////////////////////
         else {
             System.out.println("‣소환을 거부했습니다. Summoned Hero를 종료합니다.");
         }
-    } // end of Main------------------------------------------------------------------------------------
+    }
 
+    // 마을 메서드
+    public static void village(Hero hero, Scanner scanner) {
 
+        int choice = 0;
 
+        do {
+            // 기본 화면
+            System.out.println("\n====== ▷ 마을 ◁ =====================================[LV."+ hero.getLevel() +" "+ hero.getJob()+ " " + hero.getNickname() +"]===");
+            System.out.println("1. " + hero.getNickname() + " 의 정보 확인");
+            System.out.println("2. 상점");
+            System.out.println("3. 마물 던전");
+            System.out.println("4. 모험 종료");
+            System.out.println("===========================================================================");
 
+            try {
+                choice = scanner.nextInt();
+            }catch (InputMismatchException e) {
+                System.out.println("잘못된 입력입니다. 올바른 숫자를 입력해주세요.");
+                scanner.next(); // 버퍼 비우기
+                continue; // 다시 입력 받기
 
+            }
 
-
-
+            switch (choice) {
+                case 0:
+                    // 마을로 돌아가기
+                    break;
+                case 1:
+                    System.out.println(hero); // 사용자 정보
+                    break;
+                case 2:
+                    goToStore(scanner, hero); // 상점
+                    break;
+                case 3:
+                    enterDungeon(scanner, hero); // 던전 입장 선택
+                    break;
+                case 4:
+                    System.out.println("================================ 모험을 종료합니다. ================================");
+                    System.exit(0);
+                default:
+                    System.out.println("✘ 행선지를 다시 확인해주세요! ✘");
+            }
+        } while (choice != 0);
+    }
 
     // 캐릭터 생성 메서드
     private static Hero createHero(Scanner scanner) {
@@ -190,64 +201,68 @@ public class Story {
                         System.out.println("‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney());
                     }
                     break;
+                case 0:
+                    System.out.println("‣감사합니다 용사님~ 또 들러주세요!!!.");
+                    return; // 마을로 이동
                 default:
                     System.out.println("‣어떤 상품을 원하시나요? 다시 요청해주시면 가장 좋은 물건으로 드리겠습니다!!");
-
             }
 
-        } while (buyingChoice != 0) ;
+        } while (true) ;
 
     }
 
     // 던전
-    private static void enterDungeon(Scanner scanner, Hero hero) {
-        int choice;
+    public static void enterDungeon(Scanner scanner, Hero hero) {
+
+        int choice = -1;
+
         do {
             System.out.println("‣던전 문지기: 용사님!! 전투를 위한 준비는 잘 마치셨습니까? 건투를 빕니다!!!!!\n");
             System.out.println("=========================== 던전 ===========================");
-            System.out.println("1. 고블린 마을 -> 난이도: 하");
-            System.out.println("2. 오거 마을 -> 난이도 : 중");
-            System.out.println("3. 악마의 은신처 -> 난이도 : 상");
-            System.out.println("4. 타락한 천사들의 천궁 -> 난이도 : 최상");
-            System.out.println("[0. 마을로 돌아가기]");
+            System.out.println("‣1. 고블린 마을 -> 난이도: 하");
+            System.out.println("‣2. 오거 마을 -> 난이도 : 중");
+            System.out.println("‣3. 악마의 은신처 -> 난이도 : 상");
+            System.out.println("‣4. 타락한 천사들의 천궁 -> 난이도 : 최상");
+            System.out.println("[‣0. 마을로 돌아가기]");
             System.out.println("===============================================================\n");
 
-            choice = scanner.nextInt();
+            try {
+                choice = scanner.nextInt();
 
-            switch (choice) {
-                case 1:
-                    // 고블린 던전
-                    System.out.println("‣고블린 마을에 입장합니다...\n");
-                    GoblinDungeon.enterGoblinDungeon(scanner, hero);
-                    break;
-                case 2:
-                    // 오거 던전
-                    System.out.println("‣오거 마을에 입장합니다...\n");
-                    OgreDungeon.enterOgreDungeon(scanner, hero);
-                    break;
-                case 3:
-                    // 악마 던전
-                    System.out.println("‣악마의 은신처로 입장합니다...\n");
-                    DevilDungeon.enterDevilDungeon(scanner, hero);
-                    break;
-                case 4:
-                    // 천사 던
-                    System.out.println("‣타락한 천사들의 천궁으로 입장합니다...\n");
-                    AngelDungeon.enterAngelDungeon(scanner, hero);
-                    break;
-                case 0:
-                    // 마을
-                    return;
-                default:
-                    System.out.println("‣올바른 던전을 선택해주세요.\n");
+                switch (choice) {
+                    case 1:
+                        // 고블린 던전
+                        System.out.println("‣고블린 마을에 입장합니다...\n");
+                        GoblinDungeon.enterGoblinDungeon(scanner, hero);
+                        break;
+                    case 2:
+                        // 오거 던전
+                        System.out.println("‣오거 마을에 입장합니다...\n");
+                        OgreDungeon.enterOgreDungeon(scanner, hero);
+                        break;
+                    case 3:
+                        // 악마 던전
+                        System.out.println("‣악마의 은신처로 입장합니다...\n");
+                        DevilDungeon.enterDevilDungeon(scanner, hero);
+                        break;
+                    case 4:
+                        // 천사 던
+                        System.out.println("‣타락한 천사들의 천궁으로 입장합니다...\n");
+                        AngelDungeon.enterAngelDungeon(scanner, hero);
+                        break;
+                    case 0:
+                        // 마을
+                        return;
+                    default:
+                        System.out.println("‣올바른 던전을 선택해주세요.\n");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("‣숫자를 입력해주세요.\n");
+                scanner.next(); // 잘못된 입력을 처리하기 위해 입력 버퍼를 비움
             }
         } while (choice != 0);
     }
 
 
 }
-
-
-
-
-

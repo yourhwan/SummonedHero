@@ -44,7 +44,7 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
 
     // 듀얼블레이드 기본 패시브 스킬
     @Override
-    void usePassiveSkill() {
+    public void usePassiveSkill() {
 
         int damage = (int) (getBasicAttackDamage() * 1.5); // 데미지 1.5배 증가
         int maxHp = (int) (getMaxHp() * 1.5); // 최대 체력이 1.5배 증가

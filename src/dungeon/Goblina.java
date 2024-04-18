@@ -34,10 +34,10 @@ public class Goblina extends Goblin{
     @Override
     int useBasicAttack(Hero hero) {
 
+        System.out.println("고블리나가 공격을 합니다. " + getBasicAttackName() + "!");
+
         int damage = getBasicDamage();
         hero.takeDamage(damage);
-
-        System.out.println("고블리나가 공격을 합니다. " + getBasicAttackName() + "!");
 
         return damage;
     }
@@ -46,10 +46,10 @@ public class Goblina extends Goblin{
     @Override
     int goblinAttSkill(Hero hero) { // 고블리나의 분노
 
+        System.out.println("고블리나가 스킬공격을 합니다. 고블리나의 분노!");
+
         int damage = (int) (getBasicDamage() * 1.5);
         hero.takeDamage(damage);
-
-        System.out.println("고블리나가 스킬공격을 합니다. 고블리나의 분노!");
 
         return damage;
     }
