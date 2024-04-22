@@ -13,43 +13,12 @@ public class DevilDungeon {
         Map<String, Integer> devilCounts = new HashMap<>();
         List<Monster> monsters = new ArrayList<>();
 
-        int numMedievalDevil = 0;
-        int numModernDevil = 0;
-        int numAncientDevil = 0;
-        int numPrimordialDevil = 0;
-
         for (int i = 0; i < numDevils; i++) {
-            int devilType = new Random().nextInt(4);
-            Monster devil;
-            switch (devilType) {
-                case 0:
-                    devil = new MedievalDevil();
-                    numMedievalDevil++;
-                    break;
-                case 1:
-                    devil = new ModernDevil();
-                    numModernDevil++;
-                    break;
-                case 2:
-                    devil = new AncientDevil();
-                    numAncientDevil++;
-                    break;
-                case 3:
-                    devil = new PrimordialDevil();
-                    numPrimordialDevil++;
-                    break;
-                default:
-                    devil = new MedievalDevil();
-                    numMedievalDevil++;
-                    break;
-            }
+            DevilType devilType = DevilType.getRandomDevilType();
+            Monster devil = devilType.createInstance();
             monsters.add(devil);
+            devilCounts.put(devil.getName(), devilCounts.getOrDefault(devil.getName(), 0) + 1);
         }
-
-        devilCounts.put("중세 악마", numMedievalDevil);
-        devilCounts.put("현대 악마", numModernDevil);
-        devilCounts.put("고대 악마", numAncientDevil);
-        devilCounts.put("원시 악마", numPrimordialDevil);
 
         System.out.println("‣악마의 은신처에 진입했습니다. 생성된 몬스터들:");
         for (Map.Entry<String, Integer> entry : devilCounts.entrySet()) {
@@ -99,9 +68,16 @@ public class DevilDungeon {
                 break;
             }
         }
-        // 전투 종료 후 마을로 가거나 다른 던전 선택 가능하도록
-        Story.village(hero, scanner);
+
+        // 전투 종료 후, 마을로 이동 여부 확인
+        System.out.println("‣전투가 종료되었습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
+        int returnChoice = scanner.nextInt();
+        if (returnChoice == 1) {
+            System.out.println("‣마을로 돌아갑니다...");
+            Story.village(hero, scanner); // 마을로 이동
+        }
     }
+
 
     private static int selectSkill(Scanner scanner, Hero hero) {
         System.out.println("=================== 스킬 선택 ===================");
@@ -113,55 +89,82 @@ public class DevilDungeon {
             System.out.println("‣3. 블러드 스트라이크");
             System.out.println("‣4. 파워 스트라이크");
             System.out.println("‣5. 소드 마스터리");
-            System.out.println("‣6. 패시브 스킬 사용\n");
+            System.out.println("‣6. 검신의 의지\n");
         } else if (hero instanceof DualBlade) {
             System.out.println("‣1. 세비지 블로우");
             System.out.println("‣2. 인듀어런스");
-            System.out.println("‣3. 패시브 스킬 사용\n");
+            System.out.println("‣3. 어둠의 발자국\n");
         } else if (hero instanceof Berserker) {
             System.out.println("‣1. 블러드 스트라이크");
             System.out.println("‣2. 피의 욕망");
-            System.out.println("‣3. 패시브 스킬 사용\n");
+            System.out.println("‣3. 광폭화\n");
         } else if (hero instanceof Warrior) {
             System.out.println("‣1. 파워 스트라이크");
             System.out.println("‣2. 가드 마스터");
-            System.out.println("‣3. 패시브 스킬 사용\n");
+            System.out.println("‣3. 아머 마스터리\n");
         }
-
         System.out.println("====================================================");
-
         return scanner.nextInt();
     }
 
     private static void handleSkillSelection(Scanner scanner, Hero hero, List<Monster> monsters, Map<String, Integer> devilCounts) {
-        int skillChoice = selectSkill(scanner, hero);
-        switch (skillChoice) {
-            case 1:
-                useSkill(hero, monsters, devilCounts, "패스트 슬래시");
-                break;
-            case 2:
-                useSkill(hero, monsters, devilCounts, "세비지 블로우");
-                break;
-            case 3:
-                useSkill(hero, monsters, devilCounts, "블러드 스트라이크");
-                break;
-            case 4:
-                useSkill(hero, monsters, devilCounts, "파워 스트라이크");
-                break;
-            case 5:
-                if (hero instanceof SwordMaster) {
-                    ((SwordMaster) hero).swordMastery();
-                } else {
+        while (true) {
+            int skillChoice = selectSkill(scanner, hero);
+            switch (skillChoice) {
+                case 1:
+                    if (hero instanceof SwordMaster || hero instanceof Berserker) {
+                        useSkill(hero, monsters, devilCounts, "블러드 스트라이크");
+                    } else {
+                        useSkill(hero, monsters, devilCounts, "패스트 슬래시");
+                    }
+                    return;
+                case 2:
+                    if (hero instanceof SwordMaster) {
+                        useSkill(hero, monsters, devilCounts, "세비지 블로우");
+                    } else if (hero instanceof Berserker) {
+                        useSkill(hero, monsters, devilCounts, "피의 욕망");
+                    } else if (hero instanceof DualBlade) {
+                        useSkill(hero, monsters, devilCounts, "인듀어런스");
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.\n");
+                    }
+                    return;
+                case 3:
+                    if (hero instanceof SwordMaster) {
+                        useSkill(hero, monsters, devilCounts, "블러드 스트라이크");
+                    } else if (hero instanceof Berserker) {
+                        useSkill(hero, monsters, devilCounts, "광폭화");
+                    } else if (hero instanceof DualBlade) {
+                        useSkill(hero, monsters, devilCounts, "어둠의 발자국");
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.\n");
+                    }
+                    return;
+                case 4:
+                    if (hero instanceof SwordMaster) {
+                        useSkill(hero, monsters, devilCounts, "파워 스트라이크");
+                    } else if (hero instanceof Warrior) {
+                        useSkill(hero, monsters, devilCounts, "가드 마스터");
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.\n");
+                    }
+                    return;
+                case 5:
+                    if (hero instanceof SwordMaster) {
+                        ((SwordMaster) hero).swordMastery();
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.\n");
+                    }
+                    break;
+                case 6:
+                    handlePassiveSkill(hero);
+                    return;
+                default:
                     System.out.println("‣유효하지 않은 선택입니다.\n");
-                }
-                return;
-            case 6:
-                handlePassiveSkill(hero);
-                break;
-            default:
-                System.out.println("‣유효하지 않은 선택입니다.\n");
+            }
         }
     }
+
 
     private static void useSkill(Hero hero, List<Monster> monsters, Map<String, Integer> devilCounts, String skillName) {
         int damage = 0;

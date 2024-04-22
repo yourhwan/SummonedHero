@@ -23,7 +23,7 @@ public class DevilDungeonBattleThread extends Thread {
     public void run() {
         try {
             while (!monsters.isEmpty() && hero.isAlive()) {
-                Thread.sleep(2000); // 몬스터 공격 사이에 2초 대기
+                Thread.sleep(3000); // 몬스터 공격 사이에 2초 대기
                 for (Monster monster : monsters) {
                     int damage = monster.randomAttack(hero);
                     System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
@@ -46,6 +46,10 @@ public class DevilDungeonBattleThread extends Thread {
         } catch (Exception e) {
             System.err.println("오류 발생: " + e.getMessage());
             e.printStackTrace(); // 디버깅을 위한 에러메시지 출력
+        } finally {
+            if (scanner != null) {
+                scanner.close(); // 스캐너 닫기
+            }
         }
     }
 

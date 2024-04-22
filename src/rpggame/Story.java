@@ -63,9 +63,8 @@ public class Story {
                 choice = scanner.nextInt();
             }catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 올바른 숫자를 입력해주세요.");
-                scanner.next(); // 버퍼 비우기
+                scanner.nextLine(); // 버퍼 비우기
                 continue; // 다시 입력 받기
-
             }
 
             switch (choice) {
@@ -169,11 +168,11 @@ public class Story {
                         hero.setMaxHp(hero.getMaxHp() + 10);
                         hero.setInitialHp(hero.getInitialHp() + 10);
                         hero.setInitialMaxHp(hero.getInitialMaxHp());
-                        System.out.println("‣HP 증가 영약을 구매했습니다.");
+                        System.out.println("\n‣HP 증가 영약을 구매했습니다.\n");
                         System.out.println(hero);
                     }
                     else {
-                        System.out.println("‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney());
+                        System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
                     }
                     break;
                 case 2:
@@ -183,29 +182,29 @@ public class Story {
                         hero.setMaxMp(hero.getMaxMp() + 20);
                         hero.setInitialMp(hero.getInitialMp() + 20);
                         hero.setInitialMaxMp(hero.getInitialMaxMp());
-                        System.out.println("‣MP 증가 영약을 구매했습니다.");
+                        System.out.println("\n‣MP 증가 영약을 구매했습니다.\n");
                         System.out.println(hero);
                     }
                     else {
-                        System.out.println("‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney());
+                        System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
                     }
                     break;
                 case 3:
                     if(hero.getMoney() >= 5000) {
                         hero.setMoney(hero.getMoney() - 5000);
                         hero.setBasicAttackDamage(hero.getBasicAttackDamage() + 10);
-                        System.out.println("‣공격력 증가 영약을 구매했습니다.");
+                        System.out.println("\n‣공격력 증가 영약을 구매했습니다.\n");
                         System.out.println(hero);
                     }
                     else {
-                        System.out.println("‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney());
+                        System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
                     }
                     break;
                 case 0:
-                    System.out.println("‣감사합니다 용사님~ 또 들러주세요!!!.");
+                    System.out.println("\n‣감사합니다 용사님~ 또 들러주세요!!!.");
                     return; // 마을로 이동
                 default:
-                    System.out.println("‣어떤 상품을 원하시나요? 다시 요청해주시면 가장 좋은 물건으로 드리겠습니다!!");
+                    System.out.println("\n‣어떤 상품을 원하시나요? 다시 요청해주시면 가장 좋은 물건으로 드리겠습니다!!\n");
             }
 
         } while (true) ;
