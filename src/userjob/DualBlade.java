@@ -14,9 +14,9 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
         setMp(150);                     // 마력
         setExp(getExp());               // 경험치
         setLevel(getLevel());           // 레벨
-        setMoney(getMoney());           // 돈
+        setMoney(5000);           // 돈
         setJob("듀얼블레이드");            // 직업
-        setBasicAttackName("");         // 기본 공격 이름
+        setBasicAttackName("더블 어택");         // 기본 공격 이름
         setBasicAttackDamage(30);       // 기본 공격 데미지
         setInitialMaxHp(150);           // 버프 스킬 사용 전 최대 체력
         setInitialHp(150);              // 버프 스킬 사용 전 체력

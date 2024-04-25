@@ -1,7 +1,5 @@
 package dungeon;
 
-import userjob.*;
-
 public enum DevilType {
     MEDIEVAL_DEVIL,
     MODERN_DEVIL,

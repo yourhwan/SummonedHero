@@ -14,7 +14,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         setMp(100);                     // 마력
         setExp(getExp());               // 경험치
         setLevel(getLevel());           // 레벨
-        setMoney(getMoney());           // 돈
+        setMoney(5000);           // 돈
         setJob("버서커");                 // 직업
         setBasicAttackName("크게 베기");  // 기본 공격 이름
         setBasicAttackDamage(40);       // 기본 공격력

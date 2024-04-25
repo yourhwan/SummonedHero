@@ -2,31 +2,29 @@ package dungeon;
 
 import userjob.Hero;
 
-import java.util.List;
-import java.util.Map;
-
-public class DevilDungeonBattleThread extends Thread {
+import java.util.*;
+public class OgreDungeonBattleThread extends Thread{
     private final Hero hero;
     private final List<Monster> monsters;
-    private final Map<String, Integer> devilCounts;
+    private final Map<String, Integer> ogreCounts;
 
-    public DevilDungeonBattleThread(Hero hero, List<Monster> monsters, Map<String, Integer> devilCounts) {
+    public OgreDungeonBattleThread(Hero hero, List<Monster> monsters, Map<String, Integer> ogreCounts) {
         this.hero = hero;
         this.monsters = monsters;
-        this.devilCounts = devilCounts;
+        this.ogreCounts = ogreCounts;
     }
 
     @Override
     public void run() {
         try {
-            while (!monsters.isEmpty() && hero.isAlive() && !DevilDungeon.isBattleOver()) {
+            while (!monsters.isEmpty() && hero.isAlive() && !OgreDungeon.isBattleOver()) {
                 Thread.sleep(3000); // 몬스터 공격 사이에 3초 대기
                 for (Monster monster : monsters) {
                     int damage = monster.randomAttack(hero);
                     System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
                     if (hero.getHp() <= 0) {
 
-                        DevilDungeon.setBattleOver(true);// 전투 종료
+                        OgreDungeon.setBattleOver(true);// 전투 종료
                         return;
                     }
                 }
@@ -40,4 +38,6 @@ public class DevilDungeonBattleThread extends Thread {
             e.printStackTrace(); // 디버깅을 위한 에러메시지 출력
         }
     }
+
 }
+

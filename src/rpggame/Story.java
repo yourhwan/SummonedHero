@@ -4,6 +4,8 @@ import dungeon.AngelDungeon;
 import dungeon.DevilDungeon;
 import dungeon.GoblinDungeon;
 import dungeon.OgreDungeon;
+import item.FireSword;
+import item.PoisonSword;
 import userjob.*;
 
 import java.util.*;
@@ -11,10 +13,10 @@ import java.util.*;
 public class Story {
     public static void main(String[] args) {
 
-        String filePath = "EmbracingMe.wav";
-
-        BackgroundMusicThread musicThread = new BackgroundMusicThread(filePath);
-        musicThread.start();
+//        String filePath = "EmbracingMe.wav";
+//
+//        BackgroundMusicThread musicThread = new BackgroundMusicThread(filePath);
+//        musicThread.start();
 
         System.out.println("‣Summoned Hero에 접속하셨습니다. 모든 선택 및 답변은 주어지는 선택지의 숫자를 입력해주시면 됩니다." +
                 "\n\n‣당신은 마물들의 공격으로 멸망 위기에 처한 세계로 소환이 될 예정입니다." +
@@ -59,13 +61,15 @@ public class Story {
             System.out.println("4. 모험 종료");
             System.out.println("===========================================================================");
 
-            try {
+            if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-            }catch (InputMismatchException e) {
-                System.out.println("잘못된 입력입니다. 올바른 숫자를 입력해주세요.");
-                scanner.nextLine(); // 버퍼 비우기
-                continue; // 다시 입력 받기
+                System.out.println("입력된 선택지: " + choice); // 디버깅용 출력
+            } else {
+                System.out.println("잘못된 입력이 감지되었습니다: " + scanner.next());
+                System.out.println("올바른 정수를 입력해주세요."); // 디버깅용 출력
+                scanner.nextLine(); // 잘못된 입력값 제거
             }
+
 
             switch (choice) {
                 case 0:
@@ -153,7 +157,7 @@ public class Story {
         do {
             System.out.println("어서오세요 용사님~! 용사님의 모험을 위한 신비로운 물건들이 준비되어 있습니다! 편하게 말씀해주세요!!!!\n");
             System.out.println("\n\n================================ 상점 ================================");
-            System.out.println("[1. HP 증가 영약: 3000원 -> 10 증가]  [2. MP 증가 영약: 2000원 -> 20 증가]  [3.공격력 증가 영약: 5000원 -> 10 증가]");
+            System.out.println("[1. HP 증가 영약: 3000원 -> 10 증가]  [2. MP 증가 영약: 2000원 -> 20 증가]  [3.공격력 증가 영약: 5000원 -> 10 증가]  [4.불의 검: 5000원 -> 지속데미지 10]  [3.독의 검: 5000원 -> 지속데미지 10]");
             System.out.println("[0. 마을로 돌아가기]");
             System.out.println("===============================================================");
             System.out.println("‣" + hero.getNickname() + " 의 소지금: " + hero.getMoney()+"\n\n");
@@ -198,6 +202,24 @@ public class Story {
                     }
                     else {
                         System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
+                    }
+                    break;
+                case 4: // 화염 검 구매
+                    if (hero.getMoney() >= 5000) { // 가격 확인
+                        hero.setMoney(hero.getMoney() - 5000); // 돈 차감
+                        System.out.println("\n‣화염 검을 구매했습니다.\n");
+                        hero.equipWeapon(new FireSword()); // 화염 검 장착
+                    } else {
+                        System.out.println("\n‣돈이 부족합니다. 현재 소지금: " + hero.getMoney() + "\n\n");
+                    }
+                    break;
+                case 5: // 독 검 구매
+                    if (hero.getMoney() >= 5000) { // 가격 확인
+                        hero.setMoney(hero.getMoney() - 5000); // 돈 차감
+                        System.out.println("\n‣독 검을 구매했습니다.\n");
+                        hero.equipWeapon(new PoisonSword()); // 독 검 장착
+                    } else {
+                        System.out.println("\n‣돈이 부족합니다. 현재 소지금: " + hero.getMoney() + "\n\n");
                     }
                     break;
                 case 0:
@@ -246,7 +268,7 @@ public class Story {
                         DevilDungeon.enterDevilDungeon(scanner, hero);
                         break;
                     case 4:
-                        // 천사 던
+                        // 천사 던전
                         System.out.println("‣타락한 천사들의 천궁으로 입장합니다...\n");
                         AngelDungeon.enterAngelDungeon(scanner, hero);
                         break;

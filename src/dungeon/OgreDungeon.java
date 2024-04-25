@@ -1,175 +1,195 @@
 package dungeon;
 
+import item.FireSword;
+import item.PoisonSword;
+import rpggame.Story;
 import userjob.*;
 
 import java.util.*;
 
-public class OgreDungeon {
+import static userjob.Hero.startWeaponThread;
+
+public class OgreDungeon extends Thread{
+
+    private static boolean battleOver = false; // 전투 종료여부 확인용
 
     public static void enterOgreDungeon(Scanner scanner, Hero hero) {
-
-        int numOgres = new Random().nextInt(5) + 4; // 랜덤으로 5에서 8까지의 오거 생성
-        Map<String, Integer> ogreCounts = new HashMap<>();
-        List<Monster> monsters = new ArrayList<>();
-
-        int numOni = 0;
-        int numKijin = 0;
-        int numKishin = 0;
-
-        for (int i = 0; i < numOgres; i++) {
-            int ogreType = new Random().nextInt(3);
-            Monster ogre;
-            switch (ogreType) {
-                case 0:
-                    ogre = new Oni();
-                    numOni++;
-                    break;
-                case 1:
-                    ogre = new Kijin();
-                    numKijin++;
-                    break;
-                case 2:
-                    ogre = new Kishin();
-                    numKishin++;
-                    break;
-                default:
-                    ogre = new Oni();
-                    numOni++;
-                    break;
-            }
-            monsters.add(ogre);
-        }
-
-        ogreCounts.put("Oni", numOni);
-        ogreCounts.put("Kijin", numKijin);
-        ogreCounts.put("Kishin", numKishin);
-
-        System.out.println("‣오거 마을에 진입했습니다. 생성된 몬스터들:");
-        for (Map.Entry<String, Integer> entry : ogreCounts.entrySet()) {
-            System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + "마리");
-        }
-        System.out.println();
-
-        // 몬스터 공격 스레드
-        Thread monsterAttackThread = new Thread(() -> {
-            while (!monsters.isEmpty() && hero.isAlive()) {
-                try {
-                    Thread.sleep(1500); // 1.5초마다
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                for (Monster monster : monsters) {
-                    int damage = monster.randomAttack(hero);
-                    System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
-                    if (hero.getHp() <= 0) {
-                        System.out.println("========================= 전투 결과 =========================");
-                        System.out.println("‣전투에서 패배했습니다.\n");
-                        System.out.println("‣내 정보");
-                        System.out.println(hero); // 사용자 정보
-                        System.out.println("==========================================================");
-                        hero.revert();
-                        return;
-                    }
-                }
-            }
-        });
-        monsterAttackThread.start();
-
-        while (!monsters.isEmpty() && hero.isAlive()) {
-            System.out.println("========================= 전투 메뉴 =========================");
-            System.out.println("\n‣행동을 선택하세요:\n");
-            System.out.println("‣1. 기본 공격");
-            System.out.println("‣2. 스킬 사용\n");
-            System.out.println("===========================================================");
-
-            int actionChoice = scanner.nextInt();
-
-            switch (actionChoice) {
-                case 1:
-                    int totalMonsterHP = monsters.stream().mapToInt(Monster::getHp).sum();
-                    for (Monster monster : monsters) {
-                        int damage = hero.useBasicAttack();
-                        System.out.println("‣적에게 " + damage + "의 피해를 입혔습니다.\n");
-                        if (monster.getHp() - damage <= 0) {
-                            System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
-                            monsters.remove(monster);
-                            ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
-                            hero.gainExp(monster.dropExp());
-                            hero.gainMoney(monster.dropMoney());
-                            break;
-                        }
-                    }
-                    break;
-                case 2:
-                    handleSkillSelection(scanner, hero, monsters, ogreCounts);
-                    break;
-                default:
-                    System.out.println("‣유효한 선택을 해주세요.\n");
-                    continue;
-            }
-
-            if (monsters.isEmpty()) {
-                System.out.println("‣모든 오우거를 물리쳤습니다. 전투에서 승리했습니다!\n");
-                break;
-            }
-        }
-
         try {
-            monsterAttackThread.join(); // Wait for monster attack thread to finish
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            int numOgres = new Random().nextInt(5) + 6;
+            Map<String, Integer> ogreCounts = new HashMap<>();
+            List<Monster> monsters = new ArrayList<>();
+
+            for (int i = 0; i < numOgres; i++) {
+                OgreType ogreType = OgreType.getRandomOgreType();
+                Monster ogre = ogreType.createInstance();
+                monsters.add(ogre);
+                ogreCounts.put(ogre.getName(), ogreCounts.getOrDefault(ogre.getName(), 0) + 1);
+            }
+
+            System.out.println("‣오우거 마을에 진입했습니다. 생성된 몬스터들:");
+            for (Map.Entry<String, Integer> entry : ogreCounts.entrySet()) {
+                System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + "마리");
+            }
+            System.out.println();
+
+            // 몬스터 공격 스레드 시작
+            OgreDungeonBattleThread battleThread = new OgreDungeonBattleThread(hero, monsters, ogreCounts);
+            battleThread.start();
+
+
+            Scanner villageScanner = new Scanner(System.in); // 마을에서 사용할 스캐너 객체 생성
+
+            while (!battleOver) {
+                System.out.println("========================= 전투 메뉴 =========================");
+                System.out.println("\n‣행동을 선택하세요:\n");
+                System.out.println("‣1. 기본 공격");
+                System.out.println("‣2. 스킬 사용\n");
+                System.out.println("===========================================================");
+
+                int actionChoice = scanner.nextInt();
+
+                switch (actionChoice) {
+                    case 1:
+                        int totalMonsterHP = monsters.stream().mapToInt(Monster::getHp).sum();
+                        for (Monster monster : monsters) {
+                            int damage = hero.useBasicAttack();
+                            System.out.println("‣적에게 " + damage + "의 피해를 입혔습니다.");
+                            if (monster.getHp() - damage <= 0) {
+                                System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!");
+                                monsters.remove(monster);
+                                ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
+                                hero.gainExp(monster.dropExp());
+                                hero.gainMoney(monster.dropMoney());
+                                break;
+                            }
+                        }
+                        break;
+                    case 2:
+                        handleSkillSelection(scanner, hero, monsters, ogreCounts);
+                        break;
+                    default:
+                        System.out.println("‣유효한 선택을 해주세요.");
+                        continue;
+                }
+
+                if (monsters.isEmpty()) {
+                    System.out.println("‣모든 오우거를 물리쳤습니다. 전투에서 승리했습니다!");
+
+                    System.out.println("‣전투가 종료되었습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
+                    int returnChoice = scanner.nextInt();
+                    if (returnChoice == 1) {
+                        System.out.println("‣마을로 돌아갑니다...");
+                        Story.village(hero, scanner);
+                    }
+                    break;
+                }
+            }
+
+            if (!hero.isAlive()) {
+                System.out.println("‣전투에서 패배했습니다. 마을로 돌아갑니다.");
+                Story.village(hero, villageScanner);
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("잘못된 입력입니다. 올바른 숫자를 입력해주세요.");
+            scanner.nextLine(); // 버퍼 비우기
         }
+    }
+
+    public static boolean isBattleOver() {
+        return battleOver;
+    }
+
+    public static void setBattleOver(boolean value) {
+        battleOver = value;
     }
 
     private static int selectSkill(Scanner scanner, Hero hero) {
         System.out.println("=================== 스킬 선택 ===================");
-        System.out.println("‣스킬을 선택하세요:\n");
+        System.out.println("‣스킬을 선택하세요:");
+
         if (hero instanceof SwordMaster) {
             System.out.println("‣1. 패스트 슬래시");
             System.out.println("‣2. 세비지 블로우");
             System.out.println("‣3. 블러드 스트라이크");
             System.out.println("‣4. 파워 스트라이크");
-            System.out.println("‣5. 소드 마스터리\n");
+            System.out.println("‣5. 소드 마스터리");
+            System.out.println("‣6. 검신의 의지");
         } else if (hero instanceof DualBlade) {
             System.out.println("‣1. 세비지 블로우");
-            System.out.println("‣2. 인듀어런스\n");
+            System.out.println("‣2. 인듀어런스");
+            System.out.println("‣3. 어둠의 발자국");
         } else if (hero instanceof Berserker) {
             System.out.println("‣1. 블러드 스트라이크");
-            System.out.println("‣2. 피의 욕망\n");
+            System.out.println("‣2. 피의 욕망");
+            System.out.println("‣3. 광폭화\n");
         } else if (hero instanceof Warrior) {
             System.out.println("‣1. 파워 스트라이크");
-            System.out.println("‣2. 가드 마스터\n");
+            System.out.println("‣2. 가드 마스터");
+            System.out.println("‣3. 아머 마스터리");
         }
         System.out.println("====================================================");
         return scanner.nextInt();
     }
 
     private static void handleSkillSelection(Scanner scanner, Hero hero, List<Monster> monsters, Map<String, Integer> ogreCounts) {
-        int skillChoice = selectSkill(scanner, hero);
-        switch (skillChoice) {
-            case 1:
-                useSkill(hero, monsters, ogreCounts, "패스트 슬래시");
-                break;
-            case 2:
-                useSkill(hero, monsters, ogreCounts, "세비지 블로우");
-                break;
-            case 3:
-                useSkill(hero, monsters, ogreCounts, "블러드 스트라이크");
-                break;
-            case 4:
-                useSkill(hero, monsters, ogreCounts, "파워 스트라이크");
-                break;
-            case 5:
-                if (hero instanceof SwordMaster) {
-                    ((SwordMaster) hero).swordMastery();
-                } else {
-                    System.out.println("‣유효하지 않은 선택입니다.\n");
-                }
-                break;
-            default:
-                System.out.println("‣유효하지 않은 선택입니다.\n");
+        while (true) {
+            int skillChoice = selectSkill(scanner, hero);
+            switch (skillChoice) {
+                case 1:
+                    if (hero instanceof SwordMaster || hero instanceof Berserker) {
+                        useSkill(hero, monsters, ogreCounts, "블러드 스트라이크");
+                    } else {
+                        useSkill(hero, monsters, ogreCounts, "패스트 슬래시");
+                    }
+                    return;
+                case 2:
+                    if (hero instanceof SwordMaster) {
+                        useSkill(hero, monsters, ogreCounts, "세비지 블로우");
+                    } else if (hero instanceof Berserker) {
+                        useSkill(hero, monsters, ogreCounts, "피의 욕망");
+                    } else if (hero instanceof DualBlade) {
+                        useSkill(hero, monsters, ogreCounts, "인듀어런스");
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.");
+                    }
+                    return;
+                case 3:
+                    if (hero instanceof SwordMaster) {
+                        useSkill(hero, monsters, ogreCounts, "블러드 스트라이크");
+                    } else if (hero instanceof Berserker) {
+                        useSkill(hero, monsters, ogreCounts, "광폭화");
+                    } else if (hero instanceof DualBlade) {
+                        useSkill(hero, monsters, ogreCounts, "어둠의 발자국");
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.");
+                    }
+                    return;
+                case 4:
+                    if (hero instanceof SwordMaster) {
+                        useSkill(hero, monsters, ogreCounts, "파워 스트라이크");
+                    } else if (hero instanceof Warrior) {
+                        useSkill(hero, monsters, ogreCounts, "가드 마스터");
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.");
+                    }
+                    return;
+                case 5:
+                    if (hero instanceof SwordMaster) {
+                        ((SwordMaster) hero).swordMastery();
+                    } else {
+                        System.out.println("‣유효하지 않은 선택입니다.");
+                    }
+                    break;
+                case 6:
+                    handlePassiveSkill(hero);
+                    return;
+                default:
+                    System.out.println("‣유효하지 않은 선택입니다.");
+            }
         }
     }
+
 
     private static void useSkill(Hero hero, List<Monster> monsters, Map<String, Integer> ogreCounts, String skillName) {
         int damage = 0;
@@ -179,7 +199,7 @@ public class OgreDungeon {
                     if (hero instanceof SwordMaster) {
                         damage = ((SwordMaster) hero).fastSlash();
                     } else {
-                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.\n");
+                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.");
                         return;
                     }
                     break;
@@ -189,7 +209,7 @@ public class OgreDungeon {
                     } else if (hero instanceof DualBlade) {
                         damage = ((DualBlade) hero).savageBlow();
                     } else {
-                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.\n");
+                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.");
                         return;
                     }
                     break;
@@ -199,7 +219,7 @@ public class OgreDungeon {
                     } else if (hero instanceof Berserker) {
                         damage = ((Berserker) hero).bloodStrike();
                     } else {
-                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.\n");
+                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.");
                         return;
                     }
                     break;
@@ -209,18 +229,18 @@ public class OgreDungeon {
                     } else if (hero instanceof Warrior) {
                         damage = ((Warrior) hero).powerStrike();
                     } else {
-                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.\n");
+                        System.out.println("‣해당 스킬을 사용할 수 없는 직업입니다.");
                         return;
                     }
                     break;
                 default:
-                    System.out.println("‣유효하지 않은 스킬입니다.\n");
+                    System.out.println("‣유효하지 않은 스킬입니다.");
                     return;
             }
-            System.out.println("‣" + skillName + "를 사용하여 " + damage + "의 피해를 입혔습니다.\n");
+            System.out.println("‣" + skillName + "를 사용하여 " + damage + "의 피해를 입혔습니다.");
 
             if (monster.getHp() - damage <= 0) {
-                System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!\n");
+                System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!");
                 monsters.remove(monster);
                 ogreCounts.put(monster.getName(), ogreCounts.get(monster.getName()) - 1);
                 hero.gainExp(monster.dropExp());
@@ -229,5 +249,29 @@ public class OgreDungeon {
             }
         }
     }
+
+    private static void handlePassiveSkill(Hero hero) {
+        System.out.println("=================== 패시브 스킬 사용 ===================");
+        System.out.println("‣패시브 스킬을 사용합니다.");
+
+        if (hero instanceof SwordMaster) {
+            SwordMaster swordMaster = (SwordMaster) hero;
+            swordMaster.usePassiveSkill();
+        } else if (hero instanceof DualBlade) {
+            DualBlade dualBlade = (DualBlade) hero;
+            dualBlade.usePassiveSkill();
+        } else if (hero instanceof Berserker) {
+            Berserker berserker = (Berserker) hero;
+            berserker.usePassiveSkill();
+        } else if (hero instanceof Warrior) {
+            Warrior warrior = (Warrior) hero;
+            warrior.usePassiveSkill();
+        } else {
+            System.out.println("‣사용할 수 없는 직업 입니다.");
+        }
+
+        System.out.println("=========================================================");
+    }
+
 
 }

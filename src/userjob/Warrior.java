@@ -14,7 +14,7 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
         setMp(150);                     // 마력
         setExp(getExp());               // 경험치
         setLevel(getLevel());           // 레벨
-        setMoney(getMoney());           // 돈
+        setMoney(5000);           // 돈
         setJob("워리어");                 // 직업
         setBasicAttackName("베기");      // 기본 공격 이름
         setBasicAttackDamage(60);       // 기본 공격력

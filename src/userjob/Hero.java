@@ -1,7 +1,10 @@
 package userjob;
 
 
-import dungeon.Monster;
+import dungeon.*;
+import item.FireSword;
+import item.PoisonSword;
+import item.Weapon;
 
 public abstract class Hero {
 
@@ -24,6 +27,7 @@ public abstract class Hero {
     private String passiveSkillName; // 기본 패시브스킬 이름
     private int basicAttackDamage; // 기본 공격 데미지
     private int initialDamage; // 버프 스킬 사용 전 데미지 저장용
+    private Weapon weapon;
 
     // 하위 클래스에서 구현할 추상 메서드 생성
 
@@ -139,6 +143,63 @@ public abstract class Hero {
         maxMp = initialMaxMp;
         basicAttackDamage = initialDamage;
     }
+
+    public boolean equipWeapon(Weapon weapon) {
+        if (weapon instanceof FireSword || weapon instanceof PoisonSword) {
+            this.weapon = weapon;
+            return true;
+        } else {
+            System.out.println("이 무기는 사용할 수 없습니다.");
+            return false;
+        }
+    }
+
+
+    public static void startWeaponThread(Hero hero) {
+        if (hero.equipWeapon(new FireSword()) || hero.equipWeapon(new PoisonSword())) {
+            Weapon weapon = hero.getWeapon();
+            if (weapon instanceof FireSword) {
+                startFireSwordThread(hero);
+            } else if (weapon instanceof PoisonSword) {
+                startPoisonSwordThread(hero);
+            }
+        }
+    }
+
+    private static void startFireSwordThread(Hero hero) {
+        Thread fireSwordThread = new Thread(() -> {
+            try {
+                while (hero.getWeapon() != null && hero.getWeapon().getTarget() != null && hero.getWeapon().getTarget().isAlive() && !GoblinDungeon.isBattleOver()&& !DevilDungeon.isBattleOver()
+                        && !OgreDungeon.isBattleOver()
+                        && !AngelDungeon.isBattleOver()) {
+                    Thread.sleep(1000); // 1초마다 공격
+                    hero.getWeapon().attack();
+                }
+            } catch (InterruptedException e) {
+                System.out.println("무기 공격 스레드가 중단되었습니다.");
+                Thread.currentThread().interrupt();
+            }
+        });
+        fireSwordThread.start();
+    }
+
+    private static void startPoisonSwordThread(Hero hero) {
+        Thread poisonSwordThread = new Thread(() -> {
+            try {
+                while (hero.getWeapon() != null && hero.getWeapon().getTarget() != null && hero.getWeapon().getTarget().isAlive() && !GoblinDungeon.isBattleOver()&& !DevilDungeon.isBattleOver()
+                        && !OgreDungeon.isBattleOver()
+                        && !AngelDungeon.isBattleOver()) {
+                    Thread.sleep(1000); // 1초마다 공격
+                    hero.getWeapon().attack();
+                }
+            } catch (InterruptedException e) {
+                System.out.println("무기 공격 스레드가 중단되었습니다.");
+                Thread.currentThread().interrupt();
+            }
+        });
+        poisonSwordThread.start();
+    }
+
 
 
     // getter, setter 생성
@@ -279,4 +340,7 @@ public abstract class Hero {
         this.initialDamage = initialDamage;
     }
 
+    public Weapon getWeapon() {
+        return this.weapon;
+    }
 }
