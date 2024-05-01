@@ -26,7 +26,7 @@ public class DevilDungeon {
                 devilCounts.put(devil.getName(), devilCounts.getOrDefault(devil.getName(), 0) + 1);
             }
 
-            System.out.println("‣고블린 마을에 진입했습니다. 생성된 몬스터들:");
+            System.out.println("‣악마의 은신처에 진입했습니다. 생성된 몬스터들:");
             for (Map.Entry<String, Integer> entry : devilCounts.entrySet()) {
                 System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + " 마리");
             }
@@ -90,7 +90,7 @@ public class DevilDungeon {
                 }
 
                 if (monsters.isEmpty()) {
-                    System.out.println("‣모든 고블린을 물리쳤습니다. 전투에서 승리했습니다!");
+                    System.out.println("‣모든 악마를 물리쳤습니다. 전투에서 승리했습니다!");
 
                     System.out.println("‣전투가 종료되었습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
                     int returnChoice = scanner.nextInt();

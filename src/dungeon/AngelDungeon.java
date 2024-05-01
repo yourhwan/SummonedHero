@@ -26,7 +26,7 @@ public class AngelDungeon {
                 angelCounts.put(angel.getName(), angelCounts.getOrDefault(angel.getName(), 0) + 1);
             }
 
-            System.out.println("‣고블린 마을에 진입했습니다. 생성된 몬스터들:");
+            System.out.println("‣타락한 천사들의 천궁에 진입했습니다. 생성된 몬스터들:");
             for (Map.Entry<String, Integer> entry : angelCounts.entrySet()) {
                 System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + " 마리");
             }

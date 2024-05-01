@@ -27,7 +27,7 @@ public class OgreDungeon extends Thread{
                 ogreCounts.put(ogre.getName(), ogreCounts.getOrDefault(ogre.getName(), 0) + 1);
             }
 
-            System.out.println("‣고블린 마을에 진입했습니다. 생성된 몬스터들:");
+            System.out.println("‣오거 마을에 진입했습니다. 생성된 몬스터들:");
             for (Map.Entry<String, Integer> entry : ogreCounts.entrySet()) {
                 System.out.println("‣" + entry.getKey() + ": " + entry.getValue() + " 마리");
             }
