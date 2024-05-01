@@ -40,17 +40,28 @@ public class OgreDungeon extends Thread{
 
             Scanner villageScanner = new Scanner(System.in); // 마을에서 사용할 스캐너 객체 생성
 
-            while (!battleOver) {
+            while (true) {
+                if (battleThread.isBattleOver()) {
+                    break;
+                }
+
                 System.out.println("========================= 전투 메뉴 =========================");
                 System.out.println("\n‣행동을 선택하세요:\n");
                 System.out.println("‣1. 기본 공격");
                 System.out.println("‣2. 스킬 사용\n");
                 System.out.println("===========================================================");
+                System.out.println("‣입력: ");
 
                 int actionChoice = scanner.nextInt();
 
                 switch (actionChoice) {
                     case 1:
+                        if (!hero.isAlive()) {
+                            System.out.println("‣마을로 이동합니다...");
+                            Story.village(hero, scanner);
+                            return;
+                        }
+
                         int totalMonsterHP = monsters.stream().mapToInt(Monster::getHp).sum();
                         for (Monster monster : monsters) {
                             int damage = hero.useBasicAttack();
@@ -66,6 +77,12 @@ public class OgreDungeon extends Thread{
                         }
                         break;
                     case 2:
+                        if (!hero.isAlive()) {
+                            System.out.println("‣마을로 이동합니다...");
+                            Story.village(hero, scanner);
+                            return;
+                        }
+
                         handleSkillSelection(scanner, hero, monsters, ogreCounts);
                         break;
                     default:
@@ -74,7 +91,7 @@ public class OgreDungeon extends Thread{
                 }
 
                 if (monsters.isEmpty()) {
-                    System.out.println("‣모든 고블린을 물리쳤습니다. 전투에서 승리했습니다!");
+                    System.out.println("‣모든 오거를 물리쳤습니다. 전투에서 승리했습니다!");
 
                     System.out.println("‣전투가 종료되었습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
                     int returnChoice = scanner.nextInt();
@@ -87,9 +104,12 @@ public class OgreDungeon extends Thread{
             }
 
             if (!hero.isAlive()) {
-                System.out.println("‣전투에서 패배했습니다. 마을로 돌아갑니다.");
-                Story.village(hero, villageScanner);
-
+                System.out.println("‣전투에서 패배했습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
+                int returnChoice = scanner.nextInt();
+                if (returnChoice == 1) {
+                    System.out.println("‣마을로 돌아갑니다...");
+                    Story.village(hero, scanner);
+                }
             }
 
         } catch (InputMismatchException e) {

@@ -9,6 +9,7 @@ public class DevilDungeonBattleThread extends Thread {
     private final Hero hero;
     private final List<Monster> monsters;
     private final Map<String, Integer> devilCounts;
+    private volatile boolean battleOver = false; // 전투 종료여부 확인용
 
     public DevilDungeonBattleThread(Hero hero, List<Monster> monsters, Map<String, Integer> devilCounts) {
         this.hero = hero;
@@ -40,4 +41,9 @@ public class DevilDungeonBattleThread extends Thread {
             e.printStackTrace(); // 디버깅을 위한 에러메시지 출력
         }
     }
+
+    public boolean isBattleOver() {
+        return battleOver;
+    }
+
 }
