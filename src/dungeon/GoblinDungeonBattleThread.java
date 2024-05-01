@@ -9,6 +9,7 @@ public class GoblinDungeonBattleThread extends Thread {
     private final Hero hero;
     private final List<Monster> monsters;
     private final Map<String, Integer> goblinCounts;
+    private volatile boolean battleOver = false; // 전투 종료여부 확인용
 
     public GoblinDungeonBattleThread(Hero hero, List<Monster> monsters, Map<String, Integer> goblinCounts) {
         this.hero = hero;
@@ -19,15 +20,13 @@ public class GoblinDungeonBattleThread extends Thread {
     @Override
     public void run() {
         try {
-            while (!monsters.isEmpty() && hero.isAlive() && !GoblinDungeon.isBattleOver()) {
+            while (!battleOver) {
                 Thread.sleep(8000); // 몬스터 공격 사이에 3초 대기
                 for (Monster monster : monsters) {
-                    int damage = monster.randomAttack(hero);
-                    System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
+                    monster.randomAttack(hero);
                     if (hero.getHp() <= 0) {
-
-                        GoblinDungeon.setBattleOver(true);// 전투 종료
-                        return;
+                        battleOver = true; // 전투 종료 상태로 변경
+                        break;
                     }
                 }
             }
@@ -39,6 +38,10 @@ public class GoblinDungeonBattleThread extends Thread {
             System.err.println("오류 발생: " + e.getMessage());
             e.printStackTrace(); // 디버깅을 위한 에러메시지 출력
         }
+    }
+
+    public boolean isBattleOver() {
+        return battleOver;
     }
 
 }

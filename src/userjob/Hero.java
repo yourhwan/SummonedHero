@@ -46,7 +46,8 @@ public abstract class Hero {
 
         if (!isAlive()) {
 
-            System.out.println("HP가 0이 되어 사망 했습니다. 마을로 돌아갑니다.");
+            System.out.println("‣HP가 0이 되어 사망 했습니다.");
+            System.out.println("‣1 또는 2를 입력하면 마을로 이동합니다.");
         }
     }
 

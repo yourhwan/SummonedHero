@@ -50,6 +50,8 @@ public class Story {
     // 마을 메서드
     public static void village(Hero hero, Scanner scanner) {
 
+        hero.revert();
+
         int choice = 0;
 
         do {
@@ -141,7 +143,7 @@ public class Story {
             }
 
             if (validChoice) {
-                // Set the nickname for the character
+                // 닉네임 설정
                 hero.setNickname(nickname);
             }
         }
@@ -151,6 +153,8 @@ public class Story {
 
     // 상점 메서드
     private static void goToStore(Scanner scanner, Hero hero) {
+
+        hero.revert();
 
         int buyingChoice;
 
@@ -236,6 +240,8 @@ public class Story {
     // 던전
     public static void enterDungeon(Scanner scanner, Hero hero) {
 
+        hero.revert();
+
         int choice = -1;
 
         do {
@@ -284,6 +290,5 @@ public class Story {
             }
         } while (choice != 0);
     }
-
 
 }

@@ -14,9 +14,9 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
         setMp(150);                     // 마력
         setExp(getExp());               // 경험치
         setLevel(getLevel());           // 레벨
-        setMoney(5000);           // 돈
+        setMoney(5000);                 // 돈
         setJob("듀얼블레이드");            // 직업
-        setBasicAttackName("더블 어택");         // 기본 공격 이름
+        setBasicAttackName("더블 어택");  // 기본 공격 이름
         setBasicAttackDamage(30);       // 기본 공격 데미지
         setInitialMaxHp(150);           // 버프 스킬 사용 전 최대 체력
         setInitialHp(150);              // 버프 스킬 사용 전 체력
@@ -39,6 +39,8 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
 
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
+        System.out.println(getBasicAttackName() + "!");
+
         return totalDamage;
     }
 
@@ -46,13 +48,9 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
     @Override
     public void usePassiveSkill() {
 
-        int damage = (int) (getBasicAttackDamage() * 1.5); // 데미지 1.5배 증가
-        int maxHp = (int) (getMaxHp() * 1.5); // 최대 체력이 1.5배 증가
-        int hp = (int) (getHp() * 1.5); // 현재 체력이 1.5배 증가
+        int damage = (getBasicAttackDamage() * 2); // 데미지 2배 증가
 
-        System.out.println("'어둠의 발자국' 발동! -> 최대 HP와 공격력이 1.5배 증가 합니다. " +
-                "\n최대 HP : " + maxHp +
-                "\n현재 HP : " + hp +
+        System.out.println("'어둠의 발자국' 발동! -> 공격력이 2배 증가 합니다. " +
                 "\n현재 공격력 : " + damage);
     }
 
@@ -74,15 +72,12 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
             setMp(getMp() - mpCost); // mp 감소
 
             System.out.println("세비지 블로우의 사용으로 HP가 10 만큼 감소했습니다." +
-                    "\n현재 MP: " + getMp() +
-                    "\n세비지 블로우! " + totalDamage + " 만큼의 피해를 가했습니다.");
+                    "\n현재 MP: " + getMp());
 
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다. " +
-                    "\n현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("MP가 부족하여 기본 공격을 사용합니다.\n");
 
             return useBasicAttack();
         }
@@ -90,7 +85,7 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
 
     // 듀얼블레이드 인터페이스 버프 스킬
     @Override
-    public void indurance() { // mp를 30만큼 소모하고 hp를 완전히 회복
+    public void endurance() { // mp를 30만큼 소모하고 hp를 완전히 회복
 
         int mpCost = 30;
 
@@ -101,7 +96,7 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
                     "\n인듀어런스! 현재 HP: " + getHp() + " 현재 MP: " + getMp());
         }
         else {
-            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp());
+            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp() + "\n");
         }
 
     }
