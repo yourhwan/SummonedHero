@@ -47,14 +47,14 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
     @Override
     public void usePassiveSkill() {
 
-        int damage = getBasicAttackDamage() * 2; // 데미지 2배 증가
-        int maxHp = getMaxHp() * 2; // 최대 체력이 2배 증가
-        int hp = getHp() * 2; // 현재 체력이 2배 증가
+        setBasicAttackDamage(getBasicAttackDamage() * 2); // 데미지 2배 증가
+        setMaxHp(getMaxHp() * 2); // 최대 체력이 2배 증가
+        setHp(getHp() * 2); // 현재 체력이 2배 증가
 
         System.out.println("‣'광폭화' 발동! -> 최대 HP와 공격력이 2배 증가 합니다." +
-                "\n‣최대 HP : " + maxHp +
-                "\n‣현재 HP : " + hp +
-                "\n‣현재 공격력 : " + damage);
+                "\n‣최대 HP : " + getMaxHp() +
+                "\n‣현재 HP : " + getHp() +
+                "\n‣현재 공격력 : " + getBasicAttackDamage());
     }
 
     // 버서커 인터페이스 공격 스킬

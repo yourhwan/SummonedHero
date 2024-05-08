@@ -47,8 +47,9 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
 
         setMaxHp((int) (getMaxHp() * 1.5)); // 최대 체력이 1.5배 증가
         setHp((int) (getHp()*1.5)); // 현재 체력이 1.5배 증가
-        System.out.println("‣'아머 마스터리' 발동! -> 최대 HP가 1.5배 증가 합니다. " +
-                "\n‣현재 HP : " + getMaxHp() +"\n");
+        System.out.println("‣'아머 마스터리' 발동! -> 현재 HP와 최대 HP가 1.5배 증가 합니다." +
+                "\n‣현재 HP : " + getHp() +
+                "\n‣최대 HP : " + getMaxHp() + "\n");
     }
 
     // 워리어 인터페이스 공격 스킬

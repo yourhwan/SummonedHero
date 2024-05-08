@@ -48,7 +48,7 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
 
         setBasicAttackDamage(getBasicAttackDamage() + 20);
         setHp(getHp() + 50);
-        setMaxHp(getMaxHp() + 50 );
+        setMaxHp(getMaxHp() + 50);
 
         System.out.println("‣'검신의 의지' 발동! -> 최대 및 현재 HP 50, 현재 공격력이 20  증가 합니다." +
                 "\n‣최대 HP : " + getMaxHp() +

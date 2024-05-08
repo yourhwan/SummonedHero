@@ -50,10 +50,10 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
     @Override
     public void usePassiveSkill() {
 
-        int damage = (getBasicAttackDamage() * 2); // 데미지 2배 증가
+        setBasicAttackDamage(getBasicAttackDamage() * 2); // 데미지 2배 증가
 
         System.out.println("‣'어둠의 발자국' 발동! -> 공격력이 2배 증가 합니다. " +
-                "\n‣현재 공격력 : " + damage + "\n");
+                "\n‣현재 공격력 : " + getBasicAttackDamage() + "\n");
     }
 
 

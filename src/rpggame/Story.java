@@ -9,10 +9,10 @@ import java.util.*;
 
 public class Story {
     public static void main(String[] args) {
-//        String filePath = "EmbracingMe.wav";
-//
-//        BackgroundMusicThread musicThread = new BackgroundMusicThread(filePath);
-//        musicThread.start();
+        String filePath = "EmbracingMe.wav";
+
+        BackgroundMusicThread musicThread = new BackgroundMusicThread(filePath);
+        musicThread.start();
 
         System.out.println("‣Summoned Hero에 접속하셨습니다. 모든 선택 및 답변은 주어지는 선택지의 숫자를 입력해주시면 됩니다." +
                 "\n\n‣당신은 마물들의 공격으로 멸망 위기에 처한 세계로 소환이 될 예정입니다." +
