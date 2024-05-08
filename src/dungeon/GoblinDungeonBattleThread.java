@@ -21,7 +21,7 @@ public class GoblinDungeonBattleThread extends Thread {
     public void run() {
         try {
             while (!battleOver) {
-                Thread.sleep(8000); // 몬스터 공격 사이에 3초 대기
+                Thread.sleep(8000); // 몬스터 공격 사이에 8초 대기
                 for (Monster monster : monsters) {
                     monster.randomAttack(hero);
                     if (hero.getHp() <= 0) {

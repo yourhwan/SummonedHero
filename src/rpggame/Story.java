@@ -1,9 +1,6 @@
 package rpggame;
 
-import dungeon.AngelDungeon;
-import dungeon.DevilDungeon;
-import dungeon.GoblinDungeon;
-import dungeon.OgreDungeon;
+import dungeon.*;
 import item.FireSword;
 import item.PoisonSword;
 import userjob.*;
@@ -12,7 +9,6 @@ import java.util.*;
 
 public class Story {
     public static void main(String[] args) {
-
 //        String filePath = "EmbracingMe.wav";
 //
 //        BackgroundMusicThread musicThread = new BackgroundMusicThread(filePath);
@@ -161,7 +157,7 @@ public class Story {
         do {
             System.out.println("어서오세요 용사님~! 용사님의 모험을 위한 신비로운 물건들이 준비되어 있습니다! 편하게 말씀해주세요!!!!\n");
             System.out.println("\n\n================================ 상점 ================================");
-            System.out.println("[1. HP 증가 영약: 3000원 -> 10 증가]  [2. MP 증가 영약: 2000원 -> 20 증가]  [3.공격력 증가 영약: 5000원 -> 10 증가]  [4.불의 검: 5000원 -> 지속데미지 10]  [3.독의 검: 5000원 -> 지속데미지 10]");
+            System.out.println("[1. HP 증가 영약: 3000원 -> 10 증가]  [2. MP 증가 영약: 2000원 -> 20 증가]  [3.공격력 증가 영약: 5000원 -> 10 증가]  [4.불의 검: 5000원 -> 지속데미지 10]  [5.독의 검: 5000원 -> 지속데미지 10]");
             System.out.println("[0. 마을로 돌아가기]");
             System.out.println("===============================================================");
             System.out.println("‣" + hero.getNickname() + " 의 소지금: " + hero.getMoney()+"\n\n");
@@ -208,22 +204,24 @@ public class Story {
                         System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
                     }
                     break;
-                case 4: // 화염 검 구매
-                    if (hero.getMoney() >= 5000) { // 가격 확인
-                        hero.setMoney(hero.getMoney() - 5000); // 돈 차감
-                        System.out.println("\n‣화염 검을 구매했습니다.\n");
-                        hero.equipWeapon(new FireSword()); // 화염 검 장착
+                case 4: // 불의 검 구매
+                    if (hero.getMoney() >= 5000) {
+                        hero.setMoney(hero.getMoney() - 5000);
+                        System.out.println("\n‣불의 검을 구매했습니다.\n");
+                        FireSword fireSword = new FireSword();
+                        hero.addWeaponToInventory(fireSword);
                     } else {
-                        System.out.println("\n‣돈이 부족합니다. 현재 소지금: " + hero.getMoney() + "\n\n");
+                        System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
                     }
                     break;
                 case 5: // 독 검 구매
-                    if (hero.getMoney() >= 5000) { // 가격 확인
-                        hero.setMoney(hero.getMoney() - 5000); // 돈 차감
-                        System.out.println("\n‣독 검을 구매했습니다.\n");
-                        hero.equipWeapon(new PoisonSword()); // 독 검 장착
+                    if (hero.getMoney() >= 5000) {
+                        hero.setMoney(hero.getMoney() - 5000);
+                        System.out.println("\n‣독의 검을 구매했습니다.\n");
+                        PoisonSword poisonSword = new PoisonSword();
+                        hero.addWeaponToInventory(poisonSword);
                     } else {
-                        System.out.println("\n‣돈이 부족합니다. 현재 소지금: " + hero.getMoney() + "\n\n");
+                        System.out.println("\n‣소지금이 부족합니다. 현재 보유 중인 소지금 : " + hero.getMoney() + "\n\n");
                     }
                     break;
                 case 0:

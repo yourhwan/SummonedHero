@@ -20,15 +20,13 @@ public class DevilDungeonBattleThread extends Thread {
     @Override
     public void run() {
         try {
-            while (!monsters.isEmpty() && hero.isAlive() && !DevilDungeon.isBattleOver()) {
-                Thread.sleep(3000); // 몬스터 공격 사이에 3초 대기
+            while (!battleOver) {
+                Thread.sleep(6500); // 몬스터 공격 사이에 6.5초 대기
                 for (Monster monster : monsters) {
-                    int damage = monster.randomAttack(hero);
-                    System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
+                    monster.randomAttack(hero);
                     if (hero.getHp() <= 0) {
-
-                        DevilDungeon.setBattleOver(true);// 전투 종료
-                        return;
+                        battleOver = true; // 전투 종료 상태로 변경
+                        break;
                     }
                 }
             }

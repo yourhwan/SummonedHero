@@ -2,6 +2,7 @@ package dungeon;
 
 import item.FireSword;
 import item.PoisonSword;
+import item.WeaponManager;
 import rpggame.Story;
 import userjob.*;
 
@@ -37,6 +38,9 @@ public class GoblinDungeon {
 
             Scanner villageScanner = new Scanner(System.in); // 마을에서 사용할 스캐너 객체 생성
 
+//            boolean basicAttackExecuted = false;
+//            boolean weaponThreadStarted = false;
+
             while (true) {
                 if (battleThread.isBattleOver()) {
                     break;
@@ -55,22 +59,20 @@ public class GoblinDungeon {
                 switch (actionChoice) {
                     case 1:
                         if (!hero.isAlive()) {
-                            System.out.println("‣마을로 이동합니다...");
+                            System.out.println("‣마을로 이동합니다...\n");
                             Story.village(hero, scanner);
                             return;
                         }
 
-                        int totalMonsterHP = monsters.stream().mapToInt(Monster::getHp).sum();
-                        for (Monster monster : monsters) {
+                        for (Iterator<Monster> iterator = monsters.iterator(); iterator.hasNext();) {
+                            Monster monster = iterator.next();
                             int damage = hero.useBasicAttack();
-                            System.out.println("‣적에게 " + damage + "의 피해를 입혔습니다.");
-                            if (monster.getHp() - damage <= 0) {
-                                System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!");
-                                monsters.remove(monster);
-                                goblinCounts.put(monster.getName(), goblinCounts.get(monster.getName()) - 1);
+                            monster.takeDamage(damage);
+                            if (!monster.isAlive()) {
+                                System.out.println("\n‣" + monster.getName() + "을(를) 처치했습니다!");
+                                iterator.remove();
                                 hero.gainExp(monster.dropExp());
                                 hero.gainMoney(monster.dropMoney());
-                                break;
                             }
                         }
                         break;
@@ -89,12 +91,12 @@ public class GoblinDungeon {
                 }
 
                 if (monsters.isEmpty()) {
-                    System.out.println("‣모든 고블린을 물리쳤습니다. 전투에서 승리했습니다!");
+                    System.out.println("‣모든 고블린을 물리쳤습니다. 전투에서 승리했습니다!\n");
 
                     System.out.println("‣전투가 종료되었습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
                     int returnChoice = scanner.nextInt();
                     if (returnChoice == 1) {
-                        System.out.println("‣마을로 돌아갑니다...");
+                        System.out.println("‣마을로 돌아갑니다...\n");
                         Story.village(hero, scanner);
                     }
                     break;
@@ -102,31 +104,27 @@ public class GoblinDungeon {
             }
 
             if (!hero.isAlive()) {
-                System.out.println("‣전투에서 패배했습니다. 마을로 돌아가시겠습니까? (돌아가려면 1을 입력하세요)");
+                System.out.println("\n‣전투에서 패배했습니다. 마을로 돌아가시겠습니까? (돌아가려면 1 을 입력하세요)");
                 int returnChoice = scanner.nextInt();
                 if (returnChoice == 1) {
-                    System.out.println("‣마을로 돌아갑니다...");
+                    System.out.println("\n‣마을로 돌아갑니다...");
                     Story.village(hero, scanner);
                 }
             }
 
         } catch (InputMismatchException e) {
-            System.out.println("‣잘못된 입력입니다. 올바른 숫자를 입력해주세요.");
+            System.out.println("‣잘못된 입력입니다. 올바른 숫자를 입력해주세요.\n");
             scanner.nextLine(); // 버퍼 비우기
         }
     }
 
-    public static boolean isBattleOver() {
-        return battleOver;
-    }
+    public static boolean isBattleOver() { return battleOver; }
 
-    public static void setBattleOver(boolean value) {
-        battleOver = value;
-    }
+    public static void setBattleOver(boolean value) { battleOver = value; }
 
 
     private static void handleSkillSelection(Scanner scanner, Hero hero, List<Monster> monsters, Map<String, Integer> goblinCounts) {
-        System.out.println("=================== 스킬 선택 ===================");
+        System.out.println("\n\n=================== 스킬 선택 ===================");
         System.out.println("‣스킬을 선택하세요:");
 
         String jobName = hero.getClass().getSimpleName();
@@ -157,7 +155,7 @@ public class GoblinDungeon {
             numSkills = 3;
         }
 
-        System.out.println("====================================================");
+        System.out.println("====================================================\n");
 
         while (true) {
             System.out.print("‣선택: ");
@@ -166,7 +164,7 @@ public class GoblinDungeon {
                 handleSkill(hero, monsters, goblinCounts, skillChoice);
                 break;
             } else {
-                System.out.println("‣유효하지 않은 선택입니다.");
+                System.out.println("‣유효하지 않은 선택입니다.\n");
             }
         }
     }
@@ -259,6 +257,7 @@ public class GoblinDungeon {
 
 
     private static void useSkill(Hero hero, List<Monster> monsters, Map<String, Integer> goblinCounts, String skillName) {
+
         int damage = 0;
         for (Monster monster : monsters) {
             switch (skillName) {
@@ -304,7 +303,7 @@ public class GoblinDungeon {
                     System.out.println("‣유효하지 않은 스킬입니다.");
                     return;
             }
-            System.out.println("‣" + skillName + "를 사용하여 " + damage + "의 피해를 입혔습니다.");
+            monster.takeDamage(damage);
 
             if (monster.getHp() - damage <= 0) {
                 System.out.println("‣" + monster.getName() + "을(를) 처치했습니다!");
@@ -315,6 +314,7 @@ public class GoblinDungeon {
                 break;
             }
         }
+
     }
 
     private static void handlePassiveSkill(Hero hero) {

@@ -4,6 +4,8 @@ import dungeon.Monster;
 import skills.BerserkerAttackSkill;
 import skills.BerserkerBuffSkill;
 
+import java.util.ArrayList;
+
 public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBuffSkill {
 
     public Berserker() {
@@ -36,7 +38,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         int criticalDamage = isCritical ? 50 : 10; // 크리티컬일 경우 50의 데미지, 아닐 경우 0
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
-        System.out.println("‣"+getBasicAttackName() + "! " + totalDamage + " 만큼의 피해를 가했습니다.");
+        System.out.println("‣"+getBasicAttackName() + "! " + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
         return totalDamage;
     }
@@ -49,7 +51,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         int maxHp = getMaxHp() * 2; // 최대 체력이 2배 증가
         int hp = getHp() * 2; // 현재 체력이 2배 증가
 
-        System.out.println("‣'광폭화' 발동! -> 최대 HP와 공격력이 2배 증가 합니다. " +
+        System.out.println("‣'광폭화' 발동! -> 최대 HP와 공격력이 2배 증가 합니다." +
                 "\n‣최대 HP : " + maxHp +
                 "\n‣현재 HP : " + hp +
                 "\n‣현재 공격력 : " + damage);
@@ -79,8 +81,7 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
         }
         else {
             System.out.println("‣HP 또는 MP가 부족하여 기본 공격을 사용합니다. " +
-                    "\n‣현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
-                    "\n‣" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+                    "\n‣현재 HP: " + getHp() + ", 현재 MP: " + getMp() +"\n");
 
             return useBasicAttack();
         }
@@ -103,11 +104,11 @@ public class Berserker extends Hero implements BerserkerAttackSkill, BerserkerBu
             }
             setMp(getMp() - mpCost);
 
-            System.out.println("'피의 욕망' 발동! -> MP를 50만큼 소모하고, HP를 100만큼 회복합니다." +
-                    "\n피의 욕망! 현재 HP: " + getHp() + " 현재 MP: " + getMp());
+            System.out.println("‣'피의 욕망' 발동! -> MP를 50만큼 소모하고, HP를 100만큼 회복합니다." +
+                    "\n‣피의 욕망! 현재 HP: " + getHp() + " 현재 MP: " + getMp() + "\n");
         }
         else {
-            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp());
+            System.out.println("‣MP가 충분하지 않습니다. 현재 MP: " + getMp() + "\n");
         }
 
     }

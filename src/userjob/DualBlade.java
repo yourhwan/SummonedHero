@@ -4,6 +4,8 @@ import dungeon.Monster;
 import skills.DualBladeAttackSkill;
 import skills.DualBladeBuffSkill;
 
+import java.util.ArrayList;
+
 public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBuffSkill {
 
     public DualBlade() {
@@ -39,7 +41,7 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
 
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
-        System.out.println(getBasicAttackName() + "!");
+        System.out.println("‣" + getBasicAttackName() + "!");
 
         return totalDamage;
     }
@@ -50,8 +52,8 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
 
         int damage = (getBasicAttackDamage() * 2); // 데미지 2배 증가
 
-        System.out.println("'어둠의 발자국' 발동! -> 공격력이 2배 증가 합니다. " +
-                "\n현재 공격력 : " + damage);
+        System.out.println("‣'어둠의 발자국' 발동! -> 공격력이 2배 증가 합니다. " +
+                "\n‣현재 공격력 : " + damage + "\n");
     }
 
 
@@ -71,13 +73,13 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
         if (getMp() >= mpCost) {
             setMp(getMp() - mpCost); // mp 감소
 
-            System.out.println("세비지 블로우의 사용으로 HP가 10 만큼 감소했습니다." +
-                    "\n현재 MP: " + getMp());
+            System.out.println("‣세비지 블로우의 사용으로 MP가 10 만큼 감소했습니다." +
+                    "\n‣현재 MP: " + getMp());
 
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다.\n");
+            System.out.println("‣MP가 부족하여 기본 공격을 사용합니다.\n");
 
             return useBasicAttack();
         }
@@ -92,11 +94,11 @@ public class DualBlade extends Hero implements DualBladeAttackSkill, DualBladeBu
         if (getMp() >= mpCost) {
             setHp(getMaxHp()); // HP를 완전히 회복
             setMp(getMp() - mpCost); // mp를 30만큼 차감
-            System.out.println("'인듀어런스' 발동! -> MP를 30만큼 소모하고, HP를 완전히 회복합니다." +
-                    "\n인듀어런스! 현재 HP: " + getHp() + " 현재 MP: " + getMp());
+            System.out.println("‣'인듀어런스' 발동! -> MP를 30만큼 소모하고, HP를 완전히 회복합니다." +
+                    "\n‣인듀어런스! 현재 HP: " + getHp() + " 현재 MP: " + getMp());
         }
         else {
-            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp() + "\n");
+            System.out.println("‣MP가 충분하지 않습니다. 현재 MP: " + getMp() + "\n");
         }
 
     }

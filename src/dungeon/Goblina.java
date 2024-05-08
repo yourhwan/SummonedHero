@@ -39,6 +39,8 @@ public class Goblina extends Goblin{
         int damage = getBasicDamage();
         hero.takeDamage(damage);
 
+//        hero.test();
+
         return damage;
     }
 

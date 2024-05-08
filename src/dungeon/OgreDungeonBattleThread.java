@@ -19,14 +19,12 @@ public class OgreDungeonBattleThread extends Thread{
     public void run() {
         try {
             while (!monsters.isEmpty() && hero.isAlive() && !OgreDungeon.isBattleOver()) {
-                Thread.sleep(3000); // 몬스터 공격 사이에 3초 대기
+                Thread.sleep(4000); // 몬스터 공격 사이에 3초 대기
                 for (Monster monster : monsters) {
-                    int damage = monster.randomAttack(hero);
-                    System.out.println("‣" + monster.getName() + "이(가) 당신에게 " + damage + "의 피해를 입혔습니다.\n");
+                    monster.randomAttack(hero);
                     if (hero.getHp() <= 0) {
-
-                        OgreDungeon.setBattleOver(true);// 전투 종료
-                        return;
+                        battleOver = true; // 전투 종료 상태로 변경
+                        break;
                     }
                 }
             }

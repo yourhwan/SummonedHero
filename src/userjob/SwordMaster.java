@@ -35,7 +35,9 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
         int criticalDamage = isCritical ? 50 : 0; // 크리티컬일 경우 50의 데미지, 아닐 경우 0
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
-        System.out.println(getBasicAttackName() + "!" + totalDamage + " 만큼의 피해를 가했습니다.");
+        System.out.println("‣" + getBasicAttackName() + "!" + totalDamage + " 만큼의 피해를 가했습니다.\n");
+
+//        test();
 
         return totalDamage;
     }
@@ -44,14 +46,14 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
     @Override
     public void usePassiveSkill() {
 
-        int damage = getBasicAttackDamage() + 20;
-        int maxHp = getInitialMaxHp() + 50;
-        int hp = getHp() + 50; // HP 50 증가
+        setBasicAttackDamage(getBasicAttackDamage() + 20);
+        setHp(getHp() + 50);
+        setMaxHp(getMaxHp() + 50 );
 
-        System.out.println("'검신의 의지' 발동! -> 최대 및 현재 HP 50, 현재 공격력이 20  증가 합니다. " +
-                "\n최대 HP : " + maxHp +
-                "\n현재 HP : " + hp +
-                "\n현재 공격력 : " + damage);
+        System.out.println("‣'검신의 의지' 발동! -> 최대 및 현재 HP 50, 현재 공격력이 20  증가 합니다." +
+                "\n‣최대 HP : " + getMaxHp() +
+                "\n‣현재 HP : " + getHp() +
+                "\n‣현재 공격력 : " + getBasicAttackDamage() + "\n");
     }
 
     // 소드마스터 인터페이스 공격 스킬
@@ -67,15 +69,15 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
             // MP 감소
             setMp(getMp() - mpCost);
 
-            System.out.println("MP가 20 만큼 감소했습니다. 현재 MP: " + getMp() +
-                    "\n벽력일섬!" + totalDamage + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 20 만큼 감소했습니다. 현재 MP: " + getMp() +
+                    "\n‣벽력일섬!" + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다." +
-                    "\n현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 부족하여 기본 공격을 사용합니다." +
+                    "\n‣현재 MP: " + getMp() +
+                    "\n‣" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.\n");
 
             return useBasicAttack();
         }
@@ -92,8 +94,8 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
 
             setBasicAttackDamage(getBasicAttackDamage() + 15); // 기본 공격력 15 증가
 
-            System.out.println("공격력이 15 증가 했습니다." +
-                    "\n현재 공격력: " + getBasicAttackDamage());
+            System.out.println("‣공격력이 15 증가 했습니다." +
+                    "\n‣현재 공격력: " + getBasicAttackDamage()+ "\n");
         }
     }
 
@@ -113,22 +115,19 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
 
         int totalDamage = baseDamage + randomDamage + criticalDamage;; // 소드마스터에게 부여한 기본 데미지
 
-        System.out.println("파워스트라이크! " + totalDamage +" 만큼의 피해를 가했습니다.");
-
         if (getMp() >= mpCost) {
 
             // MP 감소
             setMp(getMp() - mpCost);
 
-            System.out.println("MP가 25 만큼 감소했습니다. 현재 MP: " + getMp() +
-                    "\n파워스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 25 만큼 감소했습니다. 현재 MP: " + getMp() +
+                    "\n‣파워스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다." +
-                    "\n현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 부족하여 기본 공격을 사용합니다." +
+                    "\n‣현재 MP: " + getMp() + "\n");
 
             return useBasicAttack();
         }
@@ -151,16 +150,15 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
             setHp(getHp() - hpCost); // hp 감소
             setMp(getMp() - mpCost); // mp 감소
 
-            System.out.println("블러드 스트라이크의 사용으로 HP가 10, MP가 20 만큼 감소했습니다." +
-                    "\n현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
-                    "\n블러드 스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣블러드 스트라이크의 사용으로 HP가 10, MP가 20 만큼 감소했습니다." +
+                    "\n‣현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
+                    "\n‣블러드 스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
             return totalDamage;
         }
         else {
-            System.out.println("HP 또는 MP가 부족하여 기본 공격을 사용합니다. " +
-                    "\n현재 HP: " + getHp() + ", 현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣HP 또는 MP가 부족하여 기본 공격을 사용합니다. " +
+                    "\n‣현재 HP: " + getHp() + ", 현재 MP: " + getMp() + "\n");
 
             return useBasicAttack();
         }
@@ -181,16 +179,15 @@ public class SwordMaster extends Hero implements SwordMasterAttackSkill, SwordMa
         if (getMp() >= mpCost) {
             setMp(getMp() - mpCost); // mp 감소
 
-            System.out.println("세비지 블로우의 사용으로 HP가 15 만큼 감소했습니다." +
-                    "\n현재 MP: " + getMp() +
-                    "\n세비지 블로우! " + totalDamage + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣세비지 블로우의 사용으로 MP가 15 만큼 감소했습니다." +
+                    "\n‣현재 MP: " + getMp() +
+                    "\n‣세비지 블로우! " + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다. " +
-                    "\n현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 부족하여 기본 공격을 사용합니다. " +
+                    "\n현재 MP: " + getMp() + "\n");
 
             return useBasicAttack();
         }

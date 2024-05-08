@@ -36,7 +36,7 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
         int criticalDamage = isCritical ? 30 : 5; // 크리티컬일 경우 30의 데미지, 아닐 경우 0
         int totalDamage = baseDamage + randomDamage + criticalDamage; // 기본 데미지와 랜덤 데미지 합치기
 
-        System.out.println(getBasicAttackName() + "!" + totalDamage + " 만큼의 피해를 가했습니다.");
+        System.out.println("‣" + getBasicAttackName() + "!" + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
         return totalDamage;
     }
@@ -47,8 +47,8 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
 
         setMaxHp((int) (getMaxHp() * 1.5)); // 최대 체력이 1.5배 증가
         setHp((int) (getHp()*1.5)); // 현재 체력이 1.5배 증가
-        System.out.println("'아머 마스터리' 발동! -> 최대 HP가 1.5배 증가 합니다. " +
-                "\n현재 HP : " + getMaxHp());
+        System.out.println("‣'아머 마스터리' 발동! -> 최대 HP가 1.5배 증가 합니다. " +
+                "\n‣현재 HP : " + getMaxHp() +"\n");
     }
 
     // 워리어 인터페이스 공격 스킬
@@ -68,15 +68,14 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
             // MP 감소
             setMp(getMp() - mpCost);
 
-            System.out.println("MP가 15 만큼 감소했습니다. 현재 MP: " + getMp() +
-                    "\n파워스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 15 만큼 감소했습니다. 현재 MP: " + getMp() +
+                    "\n‣파워스트라이크! " + totalDamage + " 만큼의 피해를 가했습니다.\n");
 
             return totalDamage;
         }
         else {
-            System.out.println("MP가 부족하여 기본 공격을 사용합니다." +
-                    "\n현재 MP: " + getMp() +
-                    "\n" + getBasicAttackName() + "! " + getBasicAttackDamage() + " 만큼의 피해를 가했습니다.");
+            System.out.println("‣MP가 부족하여 기본 공격을 사용합니다." +
+                    "\n‣현재 MP: " + getMp() + "\n");
 
             return useBasicAttack();
         }
@@ -94,11 +93,11 @@ public class Warrior extends Hero implements WarriorAttackSkill, WarriorBuffSkil
             setMp(getMp() - mpCost);
             setMaxHp(getMaxHp() * 2);
             setHp(getHp() * 2);
-            System.out.println("'가드마스터' 발동! -> MP를 15만큼 소모하고, 최대 HP와 현재 HP가 2배 증가 합니다. " +
-                    "\n최대 HP : " + getMaxHp() + " 현재 HP : " + getHp());
+            System.out.println("‣'가드마스터' 발동! -> MP를 15만큼 소모하고, 최대 HP와 현재 HP가 2배 증가 합니다." +
+                    "\n‣최대 HP : " + getMaxHp() + " 현재 HP : " + getHp() + "\n");
         }
         else {
-            System.out.println("MP가 충분하지 않습니다. 현재 MP: " + getMp());
+            System.out.println("‣MP가 충분하지 않습니다. 현재 MP: " + getMp() + "\n");
         }
 
     }

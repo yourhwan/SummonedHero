@@ -2,19 +2,20 @@ package item;
 
 import dungeon.Monster;
 
+import java.util.Objects;
+
 public abstract class Weapon {
     private String name;
     private int price;
-    private Monster target;
+    private int damage;
 
-    public Weapon(String name, int price) {
+
+
+    public Weapon(String name, int price, int damage) {
         this.name = name;
         this.price = price;
+        this.damage = damage;
     }
-
-    public abstract void attack();
-
-
 
     public String getName() {
         return name;
@@ -24,11 +25,9 @@ public abstract class Weapon {
         return price;
     }
 
-    public Monster getTarget() {
-        return target;
+    public int getDamage() {
+        return damage;
     }
 
-    public void setTarget(Monster target) {
-        this.target = target;
-    }
+    public abstract void attack(Monster monster, boolean battleOver);
 }
